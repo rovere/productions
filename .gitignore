@@ -15,3 +15,6 @@
 # Crab generated stuff
 crab_*_*
 crab.history
+
+# CMSSW specific
+*pyc
