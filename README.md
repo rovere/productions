@@ -20,6 +20,7 @@ Submit CRAB JOB
 crab -create -cfg crab_TTbar.cfg
 crab -submit -c crab_*_*
 crab -status -c crab_*_*
+crab -resubmit -c crab_*_* 1,2...
 ```
 
 
@@ -42,27 +43,28 @@ the CRAB JOB (see next point)):
   1. `cmsDriver.py TTbar_Tauola_13TeV_cfi.py --conditions auto:startup -n 1000 --eventcontent FEVTDEBUG --relval 9000,100 -s GEN,SIM --datatier GEN-SIM --no_exec` for signal
   1. `cmsDriver.py MinBias_13TeV_cfi.py --conditions auto:startup -n 1000 --eventcontent FEVTDEBUG --relval 9000,100 -s GEN,SIM --datatier GEN-SIM --no_exec` for PU
 
-1. Create a proper CRAB config [file][1]: this file will use the
-proper python configuration file, split the job according the
-instructions and save the output on the caf storage element. Remember
-to tuned the output directory to the reflect the same release used to
-produce the GEN-SIM sample.
+1. Create a proper CRAB config [1]: this file will use the proper
+python configuration file, split the job according the instructions
+and save the output on the caf storage element. Remember to tuned the
+output directory to the reflect the same release used to produce the
+GEN-SIM sample.
 
 1. DIGI+PU step.
   1. `cmsDriver.py DIGI_PU25_BX50 --datatier GEN-SIM-RAW --conditions auto:startup -s DIGI,L1,DIGI2RAW,HLT:@relval --eventcontent FEVTDEBUG -n 500 --filein /eos/something --pileup AVE_25_BX_50ns --pileup_input /eos/somthingelse —no_exec`.
   1. You must edit the produced python file and change:
     1. Use as input files for the mixing module the ones produced at
-    the previous point, for the MinBias [case][2].
+    the previous point, for the MinBias[2].
     1. Change the PU, including OOT, parameters to reflect your
-    needs. In particular, pay attention to this [example][3].
-1. Prepare another CRAB cfg to submit the DIGI+PU [step][4].
+    needs. In particular, pay attention to this example[3].
+1. Prepare another CRAB cfg to submit the DIGI+PU step[4].
 
 1. use this anchillary scripts[5] to customize the input files.
 
 1. Remember to produce the file TTbar_fullList.txt with the list of
-signs files produced in the previous step.
+   signs files produced in the previous step.
 
-1. Also add another file to customize, in case it’s needed, the rss requirements of the jb [rss]
+1. Also add another file to customize, in case it is needed, the rss
+   requirements of the jb rss[6].
 
 1. Run now the full RECO(+DQM for timing only) sequence:
   1. `step3_25PU --step RAW2DIGI,L1Reco,RECO,DQM --conditions auto:startup --eventcontent RECO,DQM --datatier RECO,DQM --filein file:step2_40PU_DIGI_L1_DIGI2RAW_HLT_PU.root -n -1 —no_exec`
@@ -73,11 +75,9 @@ signs files produced in the previous step.
 
 
 
+# References
 
-
-
-
-[1]:
+[1]
 ```
 [CRAB]
 jobtype                  = cmssw
@@ -155,8 +155,7 @@ queue                    = cmscaf1nh
 ```
 
 
-[5]
-set_inputFiles.py
+[5] set_inputFiles.py
 ```
 import FWCore.ParameterSet.Config as cms
 import pickle
@@ -170,7 +169,8 @@ cfg.maxEvents.input = cms.untracked.int32(-1)
 pickle.dump(cfg, open('pset2.py.pkl', 'wb'))
 ```
 
-set_inputFiles.sh
+
+[6] set_inputFiles.sh
 ```
 #!/bin/bash
 
@@ -181,11 +181,6 @@ mv pset{2,}.py.pkl
 #sed -i -e 's#@INPUTFILES@#$filename#' pset.py
 cmsRun -j $RUNTIME_AREA/crab_fjr_$NJob.xml -p pset.py
 ```
-
-
-
-
-
 
 [7]
 ```
