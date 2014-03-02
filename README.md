@@ -61,7 +61,9 @@ GEN-SIM sample.
 1. use this anchillary scripts[5] to customize the input files.
 
 1. Remember to produce the file TTbar_fullList.txt with the list of
-   signs files produced in the previous step.
+   signs files produced in the previous step. Example of a possible
+   simple command to do that:
+   ```touch TTbar_fullList.txt && eospath='/store/caf/user/rovere/7_0_0/GEN-SIM/TTbar/' && for f in `eoscms ls ${eospath}`; do echo ${eospath}${f} >>TTbar_fullList.txt; done```
 
 1. Also add another file to customize, in case it is needed, the rss
    requirements of the jb rss[6].
