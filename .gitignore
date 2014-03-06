@@ -19,3 +19,7 @@ crab.history
 # CMSSW specific
 *pyc
 *root
+*~
+
+# All png images
+*png
