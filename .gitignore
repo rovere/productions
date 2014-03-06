@@ -18,3 +18,4 @@ crab.history
 
 # CMSSW specific
 *pyc
+*root
