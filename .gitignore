@@ -20,6 +20,7 @@ crab.history
 *pyc
 *root
 *~
+*log
 
 # All png images
 *png
