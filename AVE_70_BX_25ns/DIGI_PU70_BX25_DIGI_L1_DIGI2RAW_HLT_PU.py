@@ -68,7 +68,7 @@ process.mix.input.nbPileupEvents.averageNumber = cms.double(70.000000)
 process.mix.bunchspace = cms.int32(25)
 process.mix.minBunch = cms.int32(-12)
 process.mix.maxBunch = cms.int32(3)
-process.mix.digitizers = cms.PSet(process.theDigitizersValid)
+# process.mix.digitizers = cms.PSet(process.theDigitizersValid)
 # Grab files dynamically from the specified eos directory
 mix_files = commands.getoutput('%s ls %s' % (EOS_COMMAND, EOS_REPO))
 mix_files = mix_files.split('\n')
@@ -78,7 +78,7 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:startup', '')
 
 # Path and EndPath definitions
-process.digitisation_step = cms.Path(process.pdigi_valid)
+process.digitisation_step = cms.Path(process.pdigi)
 process.L1simulation_step = cms.Path(process.SimL1Emulator)
 process.digi2raw_step = cms.Path(process.DigiToRaw)
 process.endjob_step = cms.EndPath(process.endOfProcess)
