@@ -9,7 +9,7 @@ import commands
 JOB_LABEL = "PU25_BX25"
 
 # Do not forget trailing '/'.
-EOS_REPO = '/store/caf/user/rovere/7_0_0/DIGI/AVE_%s/TTbar/' % JOB_LABEL
+EOS_REPO = '/store/group/phys_tracking/samples_700/DIGI/AVE_%s/TTbar/' % JOB_LABEL
 # Grab it after some lookups throu type -a eoscms/eos
 EOS_COMMAND = '/afs/cern.ch/project/eos/installation/0.3.15/bin/eos.select'
 
