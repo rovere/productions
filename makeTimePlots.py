@@ -294,14 +294,155 @@ class Measure:
         print "PileUP: %d, Lumi: %f" % (self.pileup_, self.luminosity_)
 
 
-if __name__ == "__main__":
+def totalEventTime_vs_PU(measurements,
+                         release_label,
+                         fillStyle,
+                         NoFill):
+    (c, g) = makeFrame("RecoTimePU",
+                       "Reco Time - %s" % release_label,
+                       "PileUp",
+                       "Time/Event [s]",
+                       20,
+                       0,
+                       150,
+                       600)
+    (g0, legend, t) = makeGenericTimePlot('TotalEventTime_vs_PU',
+                                          measurements,
+                                          "%d ns - FullEvent" % measurements[0].bunch_spacing_,
+                                          kAzure+5,
+                                          23,
+                                          1,
+                                          NoFill,
+                                          None,
+                                          'lp',
+                                          (False, 0, 0))
+    (g1, legend, t) = makeGenericTimePlot('TotalRecoTime_vs_PU',
+                                          measurements,
+                                          "%d ns - Reco Only" % measurements[0].bunch_spacing_,
+                                          kAzure,
+                                          21,
+                                          1,
+                                          fillStyle[0],
+                                          legend,
+                                          'f',
+                                          (False, 0, 0))
+    (g2, legend, t) = makeGenericTimePlot('TotalIterativeTime_vs_PU',
+                                          measurements,
+                                          "%d ns - IterativeTime Only" % measurements[0].bunch_spacing_,
+                                          kAzure-5,
+                                          20,
+                                          1,
+                                          NoFill,
+                                          legend,
+                                          'lp',
+                                          (False, 0, 0))
+    c.SaveAs("RecoTimePU_%d_%s_Nehalem.png" % (measurements[0].bunch_spacing_,
+                                               release_label))
+
+def totalEventTime_vs_LUMI(measurements,
+                           release_label,
+                           fillStyle,
+                           NoFill):
+    (cl, gl) = makeFrame("RecoTimeLUMI",
+                         "Reco Time - %s" % release_label,
+                         "Luminosity [10^{34} cm^{-2} s^{-1}]",
+                         "Time/Event [s]",
+                         0.5,
+                         0,
+                         5.0,
+                         600)
+    (g7a, legendl, p) = makeGenericTimePlot('TotalEventTime_vs_LUMI',
+                                            measurements,
+                                            "%d ns - Full Event" % measurements[0].bunch_spacing_,
+                                            kAzure+5,
+                                            23,
+                                            1,
+                                            NoFill,
+                                            None,
+                                            'lp',
+                                            (True, 1., 12))
+    (g7, legendl, p) = makeGenericTimePlot('TotalRecoTime_vs_LUMI',
+                                           measurements,
+                                           "%d ns - Reco Only" % measurements[0].bunch_spacing_,
+                                           kAzure,
+                                           21,
+                                           1,
+                                           fillStyle[0],
+                                           legendl,
+                                           'f',
+                                           (True, 1., 12))
+    (g8, legendl, t) = makeGenericTimePlot('TotalIterativeTime_vs_LUMI',
+                                           measurements,
+                                           "%d ns - IterativeTime" % measurements[0].bunch_spacing_,
+                                           kAzure-5,
+                                           20,
+                                           1,
+                                           1,
+                                           legendl,
+                                           'lp',
+                                           (False, 0, 0))
+    cl.SaveAs("RecoTimeLUMI_%d_%s_Nehalem.png" % (measurements[0].bunch_spacing_,
+                                                  release_label))
+
+def iterativeTime(measurements,
+                  release_label,
+                  fillStyle,
+                  NoFill):
+    (ci, gi) = makeFrame("IterativeTimePU",
+                         "Iterative Time - %s" % release_label,
+                         "PileUP",
+                         "Time/Event [s]",
+                         10,
+                         0,
+                         150,
+                         400)
+    (g13, legendi, pi) = makeGenericTimePlot('IterativeTime_vs_PU',
+                                             measurements,
+                                             "%d ns" % measurements[0].bunch_spacing_,
+                                             kAzure,
+                                             21,
+                                             1,
+                                             fillStyle[0],
+                                             None,
+                                             'lp',
+                                             (False, 0., 0.))
+    ci.SaveAs("IterativeTimePU_%d_%s_Nehalem.png" % (measurements[0].bunch_spacing_,
+                                                     release_label))
+
+    # Iterative Steps Details LUMI
+    (cil, gil) = makeFrame("IterativeTimeLUMI",
+                           "Iterative Time - %s" % release_label,
+                           "Luminosity [10^{34} cm^{-2} s^{-1}]",
+                           "Time/Event [s]",
+                           0.5,
+                           0,
+                           5.0,
+                           90)
+    (g17, legendil, pil) = makeGenericTimePlot('IterativeTime_vs_LUMI',
+                                               measurements,
+                                               "%d ns" % measurements[0].bunch_spacing_,
+                                               kAzure,
+                                               21,
+                                               1,
+                                               fillStyle[0],
+                                               None,
+                                               'lp',
+                                               (True, 1.2, 0.))
+    cil.SaveAs("IterativeTimeLUMI_%d_%s_Nehalem.png" % (measurements[0].bunch_spacing_,
+                                                        release_label))
+
+def main():
     if not checkEnvs():
         pass
-    from ROOT import *
+    measurements_25bx = []
     measurements_50bx = []
 
     measurements_50bx.append(Measure('AVE_25_BX_50ns/DQM_V0001_R000000001__MyTiming__Release700__PU25_BX50.root', 1))
-
+    measurements_50bx.append(Measure('AVE_50_BX_50ns/DQM_V0001_R000000001__MyTiming__Release700__PU50_BX50.root', 1))
+    measurements_25bx.append(Measure('AVE_25_BX_25ns/DQM_V0001_R000000001__MyTiming__Release700__PU25_BX25.root' ,1))
+    measurements_25bx.append(Measure('AVE_40_BX_25ns/DQM_V0001_R000000001__MyTiming__Release700__PU40_BX25.root' ,1))
+    measurements_25bx.append(Measure('AVE_70_BX_25ns/DQM_V0001_R000000001__MyTiming__Release700__PU70_BX25.root' ,1))
+    measurements_25bx.append(Measure('AVE_140_BX_25ns/DQM_V0001_R000000001__MyTiming__Release700__PU140_BX25.root' ,1))
 #    Explanation of the fill style algo:
 #    FillStyle = 3ijk, i(1,9)=space[0.5, 6]mm, j(0,9)=angle[0,90], k(0,9)=angle[90,180]
     fillStyle = [
@@ -319,132 +460,23 @@ if __name__ == "__main__":
         ]
     NoFill = 1
 
-    (c, g) = makeFrame("RecoTimePU",
-                       "Reco Time - 700",
-                       "PileUp",
-                       "Time/Event [s]",
-                       20,
-                       0,
-                       80,
-                       250)
-    (g0, legend, t) = makeGenericTimePlot('TotalEventTime_vs_PU',
-                                          measurements_50bx,
-                                          "50 ns - FullEvent",
-                                          kAzure+5,
-                                          23,
-                                          1,
-                                          NoFill,
-                                          None,
-                                          'lp',
-                                          (False, 0, 0))
-    (g1, legend, t) = makeGenericTimePlot('TotalRecoTime_vs_PU',
-                                          measurements_50bx,
-                                          "50 ns - Reco Only",
-                                          kAzure,
-                                          21,
-                                          1,
-                                          fillStyle[0],
-                                          legend,
-                                          'f',
-                                          (False, 0, 0))
-    (g2, legend, t) = makeGenericTimePlot('TotalIterativeTime_vs_PU',
-                                          measurements_50bx,
-                                          "50 ns - IterativeTime Only",
-                                          kAzure-5,
-                                          20,
-                                          1,
-                                          NoFill,
-                                          legend,
-                                          'lp',
-                                          (False, 0, 0))
-    c.SaveAs("RecoTimePU_700_Nehalem.png")
-    # VS Lumi Plots
-    (cl, gl) = makeFrame("RecoTimeLUMI",
-                         "Reco Time - 700",
-                         "Luminosity [10^{34} cm^{-2} s^{-1}]",
-                         "Time/Event [s]",
-                         0.5,
-                         0,
-                         2.5,
-                         250)
-    (g7a, legendl, p) = makeGenericTimePlot('TotalEventTime_vs_LUMI',
-                                            measurements_50bx,
-                                            "50 ns - Full Event",
-                                            kAzure+5,
-                                            23,
-                                            1,
-                                            NoFill,
-                                            None,
-                                            'lp',
-                                            (True, 1., 12))
-    (g7, legendl, p) = makeGenericTimePlot('TotalRecoTime_vs_LUMI',
-                                           measurements_50bx,
-                                           "50 ns - Reco Only",
-                                           kAzure,
-                                           21,
-                                           1,
-                                           fillStyle[0],
-                                           legendl,
-                                           'f',
-                                           (True, 1., 12))
-    (g8, legendl, t) = makeGenericTimePlot('TotalIterativeTime_vs_LUMI',
-                                           measurements_50bx,
-                                           "50 ns - IterativeTime",
-                                           kAzure-5,
-                                           20,
-                                           1,
-                                           1,
-                                           legendl,
-                                           'lp',
-                                           (False, 0, 0))
-    cl.SaveAs("RecoTimeLUMI_700_Nehalem.png")
-    # Iterative Steps Details PU
-    (ci, gi) = makeFrame("IterativeTimePU",
-                         "Iterative Time - 700",
-                         "PileUP",
-                         "Time/Event [s]",
-                         10,
-                         0,
-                         80,
-                         90)
-    (g13, legendi, pi) = makeGenericTimePlot('IterativeTime_vs_PU',
-                                             measurements_50bx,
-                                             "50 ns",
-                                             kAzure,
-                                             21,
-                                             1,
-                                             fillStyle[0],
-                                             None,
-                                             'lp',
-                                             (False, 0., 0.))
-    ci.SaveAs("IterativeTimePU_700_Nehalem.png")
+    # 50 ns
+    totalEventTime_vs_PU(measurements_50bx, "700", fillStyle, NoFill)
+    totalEventTime_vs_LUMI(measurements_50bx, "700", fillStyle, NoFill)
+    iterativeTime(measurements_50bx, "700", fillStyle, NoFill)
 
-    # Iterative Steps Details LUMI
-    (cil, gil) = makeFrame("IterativeTimeLUMI",
-                           "Iterative Time - 700",
-                           "Luminosity [10^{34} cm^{-2} s^{-1}]",
-                           "Time/Event [s]",
-                           0.5,
-                           0,
-                           2.5,
-                           90)
-    (g17, legendil, pil) = makeGenericTimePlot('IterativeTime_vs_LUMI',
-                                               measurements_50bx,
-                                               "50 ns",
-                                               kAzure,
-                                               21,
-                                               1,
-                                               fillStyle[0],
-                                               None,
-                                               'lp',
-                                               (True, 1.2, 0.))
-    cil.SaveAs("IterativeTimeLUMI_700_Nehalem.png")
-
-
+    # 25 ns
+    totalEventTime_vs_PU(measurements_25bx, "700", fillStyle, NoFill)
+    totalEventTime_vs_LUMI(measurements_25bx, "700", fillStyle, NoFill)
+    iterativeTime(measurements_25bx, "700", fillStyle, NoFill)
 
     for m in measurements_50bx:
         m.dump()
-
+    for m in measurements_25bx:
+        m.dump()
 
     waitKey()
 
+if __name__ == "__main__":
+    from ROOT import *
+    main()
