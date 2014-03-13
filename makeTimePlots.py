@@ -13,10 +13,12 @@ CLUSTER_CHARGE = re.compile(r".*ClusterChargeCut.*root$")
 ERR_BAD_FILE = 1
 
 iterLabels = {}
-iterLabels['0'] = ['initialStepSeeds',
+iterLabels['0'] = ['initialStepClusters',
+                   'initialStepSeeds',
                    'initialStepTrackCandidates',
                    'initialStepTracks',
-                   'initialStepSelector']
+                   'initialStepSelector',
+                   'initialStep']
 iterLabels['1'] = ['lowPtTripletStepClusters',
                    'lowPtTripletStepSeeds',
                    'lowPtTripletStepTrackCandidates',
@@ -42,11 +44,14 @@ iterLabels['4'] = ['mixedTripletStepClusters',
                    'mixedTripletStepSelector',
                    'mixedTripletStep']
 iterLabels['5'] = ['pixelLessStepClusters',
+                   'pixelLessStepSeedClusters',
                    'pixelLessStepSeeds',
                    'pixelLessStepTrackCandidates',
                    'pixelLessStepTracks',
-                   'pixelLessStepSelector']
+                   'pixelLessStepSelector',
+                   'pixelLessStep']
 iterLabels['6'] = ['tobTecStepClusters',
+                   'tobTecStepSeedClusters',
                    'tobTecStepSeeds',
                    'tobTecStepTrackCandidates',
                    'tobTecStepTracks',
