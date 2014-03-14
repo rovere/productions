@@ -37,7 +37,7 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 
 # Grab files dynamically from the specified eos directory
-input_files = commands.getoutput('%s ls %s' % (EOS_COMMAND, EOS_REPO))
+input_files = commands.getoutput('%s ls %s | sort -t _ -k 9 -n' % (EOS_COMMAND, EOS_REPO))
 input_files = input_files.split('\n')
 input_files = map(lambda x: '%s%s' %(EOS_REPO, x), input_files)
 
