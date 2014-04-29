@@ -477,14 +477,14 @@ def main():
     NoFill = 1
 
     # 50 ns
-    totalEventTime_vs_PU(measurements_50bx, "700", fillStyle, NoFill)
-    totalEventTime_vs_LUMI(measurements_50bx, "700", fillStyle, NoFill)
-    iterativeTime(measurements_50bx, "700", fillStyle, NoFill)
+    totalEventTime_vs_PU(measurements_50bx, "710pre4", fillStyle, NoFill)
+    totalEventTime_vs_LUMI(measurements_50bx, "710pre4", fillStyle, NoFill)
+    iterativeTime(measurements_50bx, "710pre4", fillStyle, NoFill)
 
     # 25 ns
-    totalEventTime_vs_PU(measurements_25bx, "700", fillStyle, NoFill)
-    totalEventTime_vs_LUMI(measurements_25bx, "700", fillStyle, NoFill)
-    iterativeTime(measurements_25bx, "700", fillStyle, NoFill)
+    totalEventTime_vs_PU(measurements_25bx, "710pre4", fillStyle, NoFill)
+    totalEventTime_vs_LUMI(measurements_25bx, "710pre4", fillStyle, NoFill)
+    iterativeTime(measurements_25bx, "710pre4", fillStyle, NoFill)
 
     for m in measurements_50bx:
         m.dump()
