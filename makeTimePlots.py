@@ -352,8 +352,8 @@ def totalEventTime_vs_PU(measurements,
                                           legend,
                                           'lp',
                                           (False, 0, 0))
-    c.SaveAs("RecoTimePU_%d_%s_Nehalem.png" % (measurements[0].bunch_spacing_,
-                                               release_label))
+    c.SaveAs("RecoTimePU_%d_BX_%s_Nehalem.png" % (measurements[0].bunch_spacing_,
+                                                  release_label))
 
 def totalEventTime_vs_LUMI(measurements,
                            release_label,
@@ -397,8 +397,8 @@ def totalEventTime_vs_LUMI(measurements,
                                            legendl,
                                            'lp',
                                            (False, 0, 0))
-    cl.SaveAs("RecoTimeLUMI_%d_%s_Nehalem.png" % (measurements[0].bunch_spacing_,
-                                                  release_label))
+    cl.SaveAs("RecoTimeLUMI_%d_BX_%s_Nehalem.png" % (measurements[0].bunch_spacing_,
+                                                     release_label))
 
 def iterativeTime(measurements,
                   release_label,
@@ -422,8 +422,8 @@ def iterativeTime(measurements,
                                              None,
                                              'lp',
                                              (False, 0., 0.))
-    ci.SaveAs("IterativeTimePU_%d_%s_Nehalem.png" % (measurements[0].bunch_spacing_,
-                                                     release_label))
+    ci.SaveAs("IterativeTimePU_%d_BX_%s_Nehalem.png" % (measurements[0].bunch_spacing_,
+                                                        release_label))
 
     # Iterative Steps Details LUMI
     (cil, gil) = makeFrame("IterativeTimeLUMI",
@@ -444,8 +444,8 @@ def iterativeTime(measurements,
                                                None,
                                                'lp',
                                                (True, 1.2, 0.))
-    cil.SaveAs("IterativeTimeLUMI_%d_%s_Nehalem.png" % (measurements[0].bunch_spacing_,
-                                                        release_label))
+    cil.SaveAs("IterativeTimeLUMI_%d_BX_%s_Nehalem.png" % (measurements[0].bunch_spacing_,
+                                                           release_label))
 
 def main():
     if not checkEnvs():
@@ -458,7 +458,7 @@ def main():
     measurements_25bx.append(Measure('AVE_25_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX25.root' ,1))
     measurements_25bx.append(Measure('AVE_40_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU40_BX25.root' ,1))
     measurements_25bx.append(Measure('AVE_70_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU70_BX25.root' ,1))
-    measurements_25bx.append(Measure('AVE_140_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU140_BX25.root' ,1))
+#    measurements_25bx.append(Measure('AVE_140_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU140_BX25.root' ,1))
 #    Explanation of the fill style algo:
 #    FillStyle = 3ijk, i(1,9)=space[0.5, 6]mm, j(0,9)=angle[0,90], k(0,9)=angle[90,180]
     fillStyle = [
