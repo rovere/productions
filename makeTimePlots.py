@@ -453,8 +453,8 @@ def main():
     measurements_25bx = []
     measurements_50bx = []
 
-#    measurements_50bx.append(Measure('AVE_25_BX_50ns/DQM_V0001_R000000001__MyTiming__Release700__PU25_BX50.root', 1))
-#    measurements_50bx.append(Measure('AVE_50_BX_50ns/DQM_V0001_R000000001__MyTiming__Release700__PU50_BX50.root', 1))
+    measurements_50bx.append(Measure('AVE_25_BX_50ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX50.root', 1))
+    measurements_50bx.append(Measure('AVE_50_BX_50ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU50_BX50.root', 1))
     measurements_25bx.append(Measure('AVE_25_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX25.root' ,1))
     measurements_25bx.append(Measure('AVE_40_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU40_BX25.root' ,1))
     measurements_25bx.append(Measure('AVE_70_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU70_BX25.root' ,1))
@@ -477,9 +477,9 @@ def main():
     NoFill = 1
 
     # 50 ns
-#    totalEventTime_vs_PU(measurements_50bx, "710pre4", fillStyle, NoFill)
-#    totalEventTime_vs_LUMI(measurements_50bx, "710pre4", fillStyle, NoFill)
-#    iterativeTime(measurements_50bx, "710pre4", fillStyle, NoFill)
+    totalEventTime_vs_PU(measurements_50bx, "710pre7", fillStyle, NoFill)
+    totalEventTime_vs_LUMI(measurements_50bx, "710pre7", fillStyle, NoFill)
+    iterativeTime(measurements_50bx, "710pre7", fillStyle, NoFill)
 
     # 25 ns
     totalEventTime_vs_PU(measurements_25bx, "710pre7", fillStyle, NoFill)
