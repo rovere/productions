@@ -236,8 +236,8 @@ class Measure:
     FREV  = 11245;  # Hz
     NBB50 = 1380;   # bunches@50ns
     NBB25 = 2508;   # bunches@25ns
-    RECO_MODULES_TIME_HISTO = '/DQMData/Run 1/DQM/Run summary/TimerService/Paths/reconstruction_step_module_total'
-    RECO_TIME_HISTO = '/DQMData/Run 1/DQM/Run summary/TimerService/Paths/reconstruction_step_total'
+    RECO_MODULES_TIME_HISTO = '/DQMData/Run 1/DQM/Run summary/TimerService/process RECO/Paths/reconstruction_step_module_total'
+    RECO_TIME_HISTO = '/DQMData/Run 1/DQM/Run summary/TimerService/process RECO/Paths/reconstruction_step_total'
     EVENT_TIME_HISTO = '/DQMData/Run 1/DQM/Run summary/TimerService/event'
 #    TRACKS_HISTO = '/DQMData/Run 1/TrackingTime/Run summary/Algo/Algo_For_HP'
     def __init__(self, file, verbose=0):
