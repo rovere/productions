@@ -458,7 +458,7 @@ def main():
     measurements_25bx.append(Measure('AVE_25_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX25.root' ,1))
     measurements_25bx.append(Measure('AVE_40_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU40_BX25.root' ,1))
     measurements_25bx.append(Measure('AVE_70_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU70_BX25.root' ,1))
-#    measurements_25bx.append(Measure('AVE_140_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU140_BX25.root' ,1))
+    measurements_25bx.append(Measure('AVE_140_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU140_BX25.root' ,1))
 #    Explanation of the fill style algo:
 #    FillStyle = 3ijk, i(1,9)=space[0.5, 6]mm, j(0,9)=angle[0,90], k(0,9)=angle[90,180]
     fillStyle = [
