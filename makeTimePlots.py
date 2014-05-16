@@ -321,7 +321,7 @@ def totalEventTime_vs_PU(measurements,
                        20,
                        0,
                        150,
-                       600)
+                       200)
     (g0, legend, t) = makeGenericTimePlot('TotalEventTime_vs_PU',
                                           measurements,
                                           "%d ns - FullEvent" % measurements[0].bunch_spacing_,
@@ -366,7 +366,7 @@ def totalEventTime_vs_LUMI(measurements,
                          0.5,
                          0,
                          5.0,
-                         600)
+                         200)
     (g7a, legendl, p) = makeGenericTimePlot('TotalEventTime_vs_LUMI',
                                             measurements,
                                             "%d ns - Full Event" % measurements[0].bunch_spacing_,
@@ -411,7 +411,7 @@ def iterativeTime(measurements,
                          10,
                          0,
                          150,
-                         400)
+                         200)
     (g13, legendi, pi) = makeGenericTimePlot('IterativeTime_vs_PU',
                                              measurements,
                                              "%d ns" % measurements[0].bunch_spacing_,
@@ -433,7 +433,7 @@ def iterativeTime(measurements,
                            0.5,
                            0,
                            5.0,
-                           90)
+                           50)
     (g17, legendil, pil) = makeGenericTimePlot('IterativeTime_vs_LUMI',
                                                measurements,
                                                "%d ns" % measurements[0].bunch_spacing_,
