@@ -2,7 +2,7 @@ import FWCore.ParameterSet.Config as cms
 
 import commands
 
-JOB_LABEL = "PU25_BX50"
+JOB_LABEL = "PU50_BX50"
 
 # Do not forget trailing '/'.
 EOS_REPO = '/store/group/phys_tracking/samples_710pre7/DIGI/AVE_%s/TTbar/' % JOB_LABEL
