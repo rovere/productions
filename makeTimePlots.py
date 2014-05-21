@@ -63,7 +63,7 @@ iterLabels['6'] = ['tobTecStepClusters',
                    'tobTecStepSeedLayersPair',
                    'tobTecStepSeedsTripl',
                    'tobTecStepSeedsPair',
-                   'tobTecStepSeed',
+                   'tobTecStepSeeds',
                    'tobTecStepTrackCandidates',
                    'tobTecStepTracks',
                    'tobTecStepSelector']
@@ -188,9 +188,9 @@ def makeGenericTimePlot(kind,
         gr[-1].SetFillStyle(fill_pattern)
         gr[-1].Draw("CP3")
 
-        if print_labels_for_points[0]:
-            for l in range(0, len(x)):
-                pu_text.append(TText(x[l], y[l]*print_labels_for_points[1] + print_labels_for_points[2], "%d" % int(measurements[l].pileup_)))
+        for l in range(0, len(x)):
+            if measurements[l].print_labels_:
+                pu_text.append(TText(x[l], y[l]*print_labels_for_points[0] + print_labels_for_points[1], "%d" % int(measurements[l].pileup_)))
                 pu_text[-1].SetTextFont(23)
                 pu_text[-1].SetTextSize(20)
                 pu_text[-1].SetTextAlign(22)
@@ -213,9 +213,9 @@ def makeGenericTimePlot(kind,
             gr[-1].SetFillStyle(fill_pattern)
             gr[-1].Draw("CP")
             legend.AddEntry(gr[-1], "%s Iter%d" % (label, i), legend_kind)
-        if print_labels_for_points[0]:
-            for l in range(0, len(x)):
-                pu_text.append(TText(x[l], iy[-1][l]*print_labels_for_points[1] + print_labels_for_points[2], "%d" % int(measurements[l].pileup_)))
+        for l in range(0, len(x)):
+            if measurements[l].print_labels_:
+                pu_text.append(TText(x[l], iy[-1][l]*print_labels_for_points[0] + print_labels_for_points[1], "%d" % int(measurements[l].pileup_)))
                 pu_text[-1].SetTextFont(23)
                 pu_text[-1].SetTextSize(16)
                 pu_text[-1].SetTextAlign(22)
@@ -298,8 +298,7 @@ class Measure:
         steps = sorted(iterLabels.keys())
         for step in steps:
             self.iterative_time_[step] = 0.
-            labels = iterLabels[step]
-            for l in labels:
+            for l in iterLabels[step]:
                 if self.verbose_ > 0 :
                     print "Adding step %s for iter%s" % (l, step)
                 self.iterative_total_time_ += h.GetBinContent(h.GetXaxis().FindBin(l))
@@ -332,8 +331,8 @@ def totalEventTime_vs_PU(measurements,
                        "Time/Event [s]",
                        20,
                        0,
-                       80,
-                       200)
+                       150,
+                       380)
     keep_alive = []
     legend = 0
     pu_labels = None
@@ -363,7 +362,7 @@ def totalEventTime_vs_PU(measurements,
                                                       fillStyle[0],
                                                       legend if legend else None,
                                                       'f',
-                                                      (measurement[0].print_labels_, 1., 12),
+                                                      (1., 12),
                                                       pu_labels if pu_labels else None)
         keep_alive.append(g1)
         (g2, legend, t) = makeGenericTimePlot('TotalIterativeTime_vs_PU',
@@ -376,8 +375,8 @@ def totalEventTime_vs_PU(measurements,
                                               NoFill,
                                               legend,
                                               'lp',
-                                              (False, 0, 0),
-                                              pu_labels if pu_labels else None)
+                                              (1., 12),
+                                              None)
 
         keep_alive.append(g2)
 #         for t in pu_labels:
@@ -399,8 +398,8 @@ def totalEventTime_vs_LUMI(measurements,
                          "Time/Event [s]",
                          0.5,
                          0,
-                         3.0,
-                         200)
+                         5.5,
+                         380)
     keep_alive = []
     legendl = 0
     pu_labels = None
@@ -428,21 +427,21 @@ def totalEventTime_vs_LUMI(measurements,
                                                        fillStyle[0],
                                                        legendl if legendl else None,
                                                        'f',
-                                                       (measurement[0].print_labels_, 1., 12),
+                                                       (1., 12),
                                                        pu_labels if pu_labels else None)
         keep_alive.append(g7)
-        (g8, legendl, pu_labels) = makeGenericTimePlot('TotalIterativeTime_vs_LUMI',
-                                                       measurement,
-                                                       "%d ns - IterativeTime %s" % (measurement[0].bunch_spacing_,
-                                                                                     measurement[0].release_),
-                                                       color-5,
-                                                       20,
-                                                       1,
-                                                       1,
-                                                       legendl if legendl else None,
-                                                       'lp',
-                                                       (False, 0., 0),
-                                                       pu_labels if pu_labels else None)
+        (g8, legendl, p) = makeGenericTimePlot('TotalIterativeTime_vs_LUMI',
+                                               measurement,
+                                               "%d ns - IterativeTime %s" % (measurement[0].bunch_spacing_,
+                                                                             measurement[0].release_),
+                                               color-5,
+                                               20,
+                                               1,
+                                               1,
+                                               legendl if legendl else None,
+                                               'lp',
+                                               (0., 0),
+                                               None)
         keep_alive.append(g8)
         for t in pu_labels:
             t.Draw()
@@ -458,8 +457,8 @@ def iterativeTime(measurements,
                          "Time/Event [s]",
                          10,
                          0,
-                         80,
-                         200)
+                         150,
+                         300)
     (g13, legendi, pi) = makeGenericTimePlot('IterativeTime_vs_PU',
                                              measurements,
                                              "%d ns" % measurements[0].bunch_spacing_,
@@ -503,17 +502,23 @@ def main():
     measurements_25bx_53X = []
     measurements_50bx_53X = []
 
-    measurements_50bx.append(Measure('AVE_25_BX_50ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX50.root', '710pre7', 0, 0, 1))
-    measurements_50bx.append(Measure('AVE_50_BX_50ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU50_BX50.root', '710pre7', 0, 0, 1))
-    measurements_50bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_25_BX_50ns/DQM_V0001_R000000001__MyTiming__Release53X__PU25_BX50.root', '53X', 1, 1, 1))
-    measurements_50bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_50_BX_50ns/DQM_V0001_R000000001__MyTiming__Release53X__PU50_BX50.root', '53X', 1, 1, 1))
-    measurements_25bx.append(Measure('AVE_25_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX25.root' , '710pre7', 0, 0, 1))
-    measurements_25bx.append(Measure('AVE_40_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU40_BX25.root' , '710pre7', 0, 0, 1))
-    measurements_25bx.append(Measure('AVE_70_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU70_BX25.root' , '710pre7', 0, 0, 1))
-    measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_25_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU25_BX25.root' , '53X', 1, 1, 1))
-    measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_40_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU40_BX25.root' , '53X', 1, 1, 1))
-    measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_70_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU70_BX25.root' , '53X', 1, 1, 1))
-#    measurements_25bx.append(Measure('AVE_140_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU140_BX25.root' ,1))
+    # Measure accepts the following parameters, in the correct order:
+    # 1, full pathname of the DQM file containing the timing information
+    # 2. the base release in which the measurements have been performed
+    # 3. a boolean specifying if the PU labels have to appear on the _vs_LUMI plots
+    # 4. a boolean specifying if the internal directory structure of the FastTimerService is old(1) or new(0)
+    # 5. the inevitable verbose flag.
+    measurements_50bx.append(Measure('AVE_25_BX_50ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX50.root', '710pre7', 0, 0, 0))
+    measurements_50bx.append(Measure('AVE_50_BX_50ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU50_BX50.root', '710pre7', 0, 0, 0))
+    measurements_50bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_25_BX_50ns/DQM_V0001_R000000001__MyTiming__Release53X__PU25_BX50.root', '53X', 1, 1, 0))
+    measurements_50bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_50_BX_50ns/DQM_V0001_R000000001__MyTiming__Release53X__PU50_BX50.root', '53X', 1, 1, 0))
+    measurements_25bx.append(Measure('AVE_25_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX25.root' , '710pre7', 0, 0, 0))
+    measurements_25bx.append(Measure('AVE_40_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU40_BX25.root' , '710pre7', 0, 0, 0))
+    measurements_25bx.append(Measure('AVE_70_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU70_BX25.root' , '710pre7', 0, 0, 0))
+    measurements_25bx.append(Measure('AVE_140_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU140_BX25.root' , '710pre7', 1, 0, 1))
+    measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_25_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU25_BX25.root' , '53X', 1, 1, 0))
+    measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_40_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU40_BX25.root' , '53X', 1, 1, 0))
+    measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_70_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU70_BX25.root' , '53X', 1, 1, 0))
 #    Explanation of the fill style algo:
 #    FillStyle = 3ijk, i(1,9)=space[0.5, 6]mm, j(0,9)=angle[0,90], k(0,9)=angle[90,180]
     fillStyle = [
@@ -539,7 +544,7 @@ def main():
     # 25 ns
     totalEventTime_vs_PU([measurements_25bx, measurements_25bx_53X, measurements_50bx, measurements_50bx_53X], "710pre7", fillStyle, NoFill)
     totalEventTime_vs_LUMI([measurements_25bx, measurements_25bx_53X, measurements_50bx, measurements_50bx_53X], "710pre7", fillStyle, NoFill)
-#    iterativeTime(measurements_25bx, "710pre7", fillStyle, NoFill)
+    iterativeTime(measurements_25bx, "710pre7", fillStyle, NoFill)
 
     for m in measurements_50bx:
         m.dump()
