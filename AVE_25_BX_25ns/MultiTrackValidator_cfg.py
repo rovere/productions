@@ -86,16 +86,16 @@ process.multiTrackValidator.histoProducerAlgoBlock.TpSelectorForEfficiencyVsVTXZ
 process.load("Validation.RecoTrack.cuts_cff")
 process.cutsRecoTracks.quality = cms.vstring('highPurity')
 #process.cutsRecoTracks.quality = cms.vstring('')
-process.cutsRecoTracks.ptMin    = cms.double(0.4)
-process.cutsRecoTracks.lip = cms.double(35.0)
-process.cutsRecoTracks.tip = cms.double(70.0)
+#process.cutsRecoTracks.ptMin    = cms.double(0.4)
+#process.cutsRecoTracks.lip = cms.double(35.0)
+#process.cutsRecoTracks.tip = cms.double(70.0)
 #process.cutsRecoTracks.minHit   = cms.int32(10)
 
 #process.cutsRecoTracks.minRapidity  = cms.int32(-1.0)
 #process.cutsRecoTracks.maxRapidity  = cms.int32(1.0)
 
 process.quickTrackAssociatorByHits.useClusterTPAssociation = cms.bool(True)
-#process.load("SimTracker.TrackerHitAssociation.clusterTpAssociationProducer_cfi")
+process.load("SimTracker.TrackerHitAssociation.clusterTpAssociationProducer_cfi")
 
 
 # Add on the fly harvesting to have also eff/fake and all the rest
@@ -106,7 +106,7 @@ process.load("Validation.RecoTrack.PostProcessorTracker_cfi")
 process.postProcessorTrack.outputFileName = cms.untracked.string("multitrackValidator_%s_postProcess.root" % JOB_LABEL)
 
 process.validation = cms.Sequence(
-    #        process.tpClusterProducer *
+    process.tpClusterProducer *
     process.multiTrackValidator *
     process.postProcessorTrack
     )

@@ -119,6 +119,10 @@ process.tobTecStepSeedsPair.ClusterCheckPSet.doClusterCheck = cms.bool(False)
 process.tripletElectronSeeds.ClusterCheckPSet.doClusterCheck = cms.bool(False)
 process.pixelPairElectronSeeds.ClusterCheckPSet.doClusterCheck = cms.bool(False)
 process.stripPairElectronSeeds.ClusterCheckPSet.doClusterCheck = cms.bool(False)
+# Get rid of limit on number of seeds only for iterations that showed the problem
+process.mixedTripletStepSeedsB.OrderedHitsFactoryPSet.GeneratorPSet.maxElement = cms.uint32(10000000)
+process.pixelLessStepSeeds.OrderedHitsFactoryPSet.GeneratorPSet.maxElement = cms.uint32(10000000)
+process.tobTecStepSeedsTripl.OrderedHitsFactoryPSet.GeneratorPSet.maxElement = cms.uint32(10000000)
 
 # Schedule definition
 process.schedule = cms.Schedule(process.raw2digi_step,
