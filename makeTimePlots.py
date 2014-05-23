@@ -13,64 +13,100 @@ CLUSTER_CHARGE = re.compile(r".*ClusterChargeCut.*root$")
 ERR_BAD_FILE = 1
 
 iterLabels = {}
-iterLabels['0'] = ['initialStepClusters',
-                   'initialStepSeedLayers',
-                   'initialStepSeeds',
-                   'initialStepTrackCandidates',
-                   'initialStepTracks',
-                   'initialStepSelector',
-                   'initialStep']
-iterLabels['1'] = ['lowPtTripletStepClusters',
-                   'lowPtTripletStepSeedLayers',
-                   'lowPtTripletStepSeeds',
-                   'lowPtTripletStepTrackCandidates',
-                   'lowPtTripletStepTracks',
-                   'lowPtTripletStepSelector']
-iterLabels['2'] = ['pixelPairStepClusters',
-                   'pixelPairStepSeedLayers',
-                   'pixelPairStepSeeds',
-                   'pixelPairStepTrackCandidates',
-                   'pixelPairStepTracks',
-                   'pixelPairStepSelector']
-iterLabels['3'] = ['detachedTripletStepClusters',
-                   'detachedTripletStepSeedLayers',
-                   'detachedTripletStepSeeds',
-                   'detachedTripletStepTrackCandidates',
-                   'detachedTripletStepTracks',
-                   'detachedTripletStepSelector',
-                   'detachedTripletStep']
-iterLabels['4'] = ['mixedTripletStepClusters',
-                   'mixedTripletStepSeedLayersA',
-                   'mixedTripletStepSeedLayersB',
-                   'mixedTripletStepSeedsA',
-                   'mixedTripletStepSeedsB',
-                   'mixedTripletStepSeeds',
-                   'mixedTripletStepTrackCandidates',
-                   'mixedTripletStepTracks',
-                   'mixedTripletStepSelector',
-                   'mixedTripletStep']
-iterLabels['5'] = ['pixelLessStepClusters',
-                   'pixelLessStepSeedClusters',
-                   'pixelLessStepSeedLayers',
-                   'pixelLessStepSeeds',
-                   'pixelLessStepTrackCandidates',
-                   'pixelLessStepTracks',
-                   'pixelLessStepSelector',
-                   'pixelLessStep']
-iterLabels['6'] = ['tobTecStepClusters',
-                   'tobTecStepSeedClusters',
-                   'tobTecStepSeedLayersTripl',
-                   'tobTecStepSeedLayersPair',
-                   'tobTecStepSeedsTripl',
-                   'tobTecStepSeedsPair',
-                   'tobTecStepSeeds',
-                   'tobTecStepTrackCandidates',
-                   'tobTecStepTracks',
-                   'tobTecStepSelector']
+iterLabels['0_initialStep'] = ['initialStepClusters',
+                               'initialStepSeedLayers',
+                               'initialStepSeeds',
+                               'initialStepTrackCandidates',
+                               'initialStepTracks',
+                               'initialStepSelector',
+                               'initialStep']
+iterLabels['1_lowPt'] = ['lowPtTripletStepClusters',
+                         'lowPtTripletStepSeedLayers',
+                         'lowPtTripletStepSeeds',
+                         'lowPtTripletStepTrackCandidates',
+                         'lowPtTripletStepTracks',
+                         'lowPtTripletStepSelector']
+iterLabels['2_pixelPair'] = ['pixelPairStepClusters',
+                             'pixelPairStepSeedLayers',
+                             'pixelPairStepSeeds',
+                             'pixelPairStepTrackCandidates',
+                             'pixelPairStepTracks',
+                             'pixelPairStepSelector']
+iterLabels['3_detachedTriplet'] = ['detachedTripletStepClusters',
+                                   'detachedTripletStepSeedLayers',
+                                   'detachedTripletStepSeeds',
+                                   'detachedTripletStepTrackCandidates',
+                                   'detachedTripletStepTracks',
+                                   'detachedTripletStepSelector',
+                                   'detachedTripletStep']
+iterLabels['4_mixedTriplet'] = ['mixedTripletStepClusters',
+                                'mixedTripletStepSeedLayersA',
+                                'mixedTripletStepSeedLayersB',
+                                'mixedTripletStepSeedsA',
+                                'mixedTripletStepSeedsB',
+                                'mixedTripletStepSeeds',
+                                'mixedTripletStepTrackCandidates',
+                                'mixedTripletStepTracks',
+                                'mixedTripletStepSelector',
+                                'mixedTripletStep']
+iterLabels['5_pixelLess'] = ['pixelLessStepClusters',
+                             'pixelLessStepSeedClusters',
+                             'pixelLessStepSeedLayers',
+                             'pixelLessStepSeeds',
+                             'pixelLessStepTrackCandidates',
+                             'pixelLessStepTracks',
+                             'pixelLessStepSelector',
+                             'pixelLessStep']
+iterLabels['6_tobtec'] = ['tobTecStepClusters',
+                          'tobTecStepSeedClusters',
+                          'tobTecStepSeedLayersTripl',
+                          'tobTecStepSeedLayersPair',
+                          'tobTecStepSeedsTripl',
+                          'tobTecStepSeedsPair',
+                          'tobTecStepSeeds',
+                          'tobTecStepTrackCandidates',
+                          'tobTecStepTracks',
+                          'tobTecStepSelector']
+iterLabels['earlyGeneralTracks'] = ['earlyGeneralTracks']
+iterLabels['muonSeededStep'] = ['earlyMuons',
+                                'muonSeededSeedsInOut',
+                                'muonSeededSeedsInOut',
+                                'muonSeededTracksInOut',
+                                'muonSeededSeedsOutIn',
+                                'muonSeededTrackCandidatesOutIn',
+                                'muonSeededTracksOutIn',
+                                'muonSeededTracksInOutSelector',
+                                'muonSeededTracksOutInSelector']
+iterLabels['generalTracksSequence'] = ['duplicateTrackCandidates',
+                                       'mergedDuplicateTracks',
+                                       'duplicateTrackSelector',
+                                       'generalTracks']
+iterLabels['ConvStep'] = ['convClusters',
+                          'convLayerPairs',
+                          'photonConvTrajSeedFromSingleLeg',
+                          'convTrackCandidates',
+                          'convStepTracks',
+                          'convStepSelector',
+                          'conversionStepTracks']
+iterLabels['electronSeedsSeq'] = ['initialStepSeedClusterMask',
+                                  'pixelPairStepSeedClusterMask',
+                                  'mixedTripletStepSeedClusterMask',
+                                  'pixelLessStepSeedClusterMask',
+                                  'tripletElectronSeedLayers',
+                                  'tripletElectronSeeds',
+                                  'tripletElectronClusterMask',
+                                  'pixelPairElectronSeedLayers',
+                                  'pixelPairElectronSeeds',
+                                  'stripPairElectronSeedLayers',
+                                  'stripPairElectronSeeds',
+                                  'newCombinedSeeds']
+iterLabels['doAlldEdXEstimators'] = ['dedxTruncated40',
+                                     'dedxHarmonic2',
+                                     'dedxDiscrimASmi']
 
-iterLabels31 = copy.deepcopy(iterLabels)
-iterLabels31['3'] = iterLabels['1']
-iterLabels31['1'] = iterLabels['3']
+#iterLabels31 = copy.deepcopy(iterLabels)
+#iterLabels31['3'] = iterLabels['1']
+#iterLabels31['1'] = iterLabels['3']
 
 def checkEnvs():
     localrt = os.getenv("LOCALRT")
@@ -79,7 +115,7 @@ def checkEnvs():
     return
 
 def makeFrame(name, title, xtitle, ytitle, xll, yll, xur, yur):
-    c = TCanvas(name, name, 1024, 768)
+    c = TCanvas(name, name, 1024, 1024)
     x = array("f", [xll, xur])
     y = array("f", [yll, yur])
     g = TGraphErrors(len(x), x, y)
@@ -87,6 +123,10 @@ def makeFrame(name, title, xtitle, ytitle, xll, yll, xur, yur):
     g.SetTitle(title)
     g.GetXaxis().SetTitle(xtitle)
     g.GetYaxis().SetTitle(ytitle)
+    setTextProperties(g.GetXaxis(), title=True)
+    setTextProperties(g.GetYaxis(), title=True)
+    setTextProperties(g.GetXaxis(), label=True)
+    setTextProperties(g.GetYaxis(), label=True)
     g.Draw("AP")
     c.Update()
     return c, g  # keep it alive....
@@ -168,11 +208,13 @@ def makeGenericTimePlot(kind,
                 x.append(measurements[i].luminosity_)
             ex.append(0.)
             ey.append(0.)
+            counter = 0
             for step in steps:
-                iy[int(step)].append(measurements[i].iterative_time_[step]/1000./measurements[i].processed_events_) # 1000 for ms
+                iy[counter].append(measurements[i].iterative_time_[step]/1000./measurements[i].processed_events_) # 1000 for ms
+                counter += 1
     if kind != 'IterativeTime_vs_PU' and kind != 'IterativeTime_vs_LUMI':
         if not legend:
-            legend = TLegend(0.1, 0.65, 0.4, 0.9)
+            legend = TLegend(0.13, 0.65, 0.7, 0.9)
             legend.SetFillColor(0)
             legend.SetHeader("PileUp Scenarios")
         print kind
@@ -191,34 +233,38 @@ def makeGenericTimePlot(kind,
         for l in range(0, len(x)):
             if measurements[l].print_labels_:
                 pu_text.append(TText(x[l], y[l]*print_labels_for_points[0] + print_labels_for_points[1], "%d" % int(measurements[l].pileup_)))
-                pu_text[-1].SetTextFont(23)
-                pu_text[-1].SetTextSize(20)
-                pu_text[-1].SetTextAlign(22)
+                setTextProperties(pu_text[-1])
+#                pu_text[-1].SetTextFont(23)
+#                pu_text[-1].SetTextSize(20)
+#                pu_text[-1].SetTextAlign(22)
         legend.AddEntry(gr[-1], label, legend_kind)
+        setTextProperties(legend)
         legend.Draw()
     elif kind == 'IterativeTime_vs_PU' or kind == 'IterativeTime_vs_LUMI':
         if not legend:
-            legend = TLegend(0.1, 0.45, 0.3, 0.9)
+            legend = TLegend(0.13, 0.45, 0.7, 0.9)
             legend.SetFillColor(0)
             legend.SetHeader("PileUp Scenarios")
         for i in range(len(steps)):
             gr.append(TGraphErrors(len(x), x, iy[i], ex, ey))
             gr[-1].SetMarkerStyle(marker_style+i)
-            gr[-1].SetMarkerColor(iterColor[i])
+            gr[-1].SetMarkerColor(iterColor[i%len(iterColor)])
             gr[-1].SetMarkerSize(1.2)
-            gr[-1].SetFillColor(iterColor[i])
-            gr[-1].SetLineColor(iterColor[i])
+            gr[-1].SetFillColor(iterColor[i%len(iterColor)])
+            gr[-1].SetLineColor(iterColor[i%len(iterColor)])
             gr[-1].SetLineStyle(line_type)
             gr[-1].SetLineWidth(2)
             gr[-1].SetFillStyle(fill_pattern)
             gr[-1].Draw("CP")
-            legend.AddEntry(gr[-1], "%s Iter%d" % (label, i), legend_kind)
+            legend.AddEntry(gr[-1], "%s Iter_%s" % (label, steps[i]), legend_kind)
         for l in range(0, len(x)):
             if measurements[l].print_labels_:
                 pu_text.append(TText(x[l], iy[-1][l]*print_labels_for_points[0] + print_labels_for_points[1], "%d" % int(measurements[l].pileup_)))
-                pu_text[-1].SetTextFont(23)
-                pu_text[-1].SetTextSize(16)
-                pu_text[-1].SetTextAlign(22)
+                setTextProperties(pu_text[-1])
+#                pu_text[-1].SetTextFont(23)
+#                pu_text[-1].SetTextSize(16)
+#                pu_text[-1].SetTextAlign(22)
+        setTextProperties(legend)
         legend.Draw()
     return gr,legend,pu_text
 
@@ -316,7 +362,6 @@ class Measure:
         print "IterativeTime[s]: %f" % (self.iterative_total_time_/self.processed_events_/1000.)
         print "PileUP: %d, Lumi: %f" % (self.pileup_, self.luminosity_)
 
-
 def totalEventTime_vs_PU(measurements,
                          release_label,
                          fillStyle,
@@ -377,10 +422,10 @@ def totalEventTime_vs_PU(measurements,
                                               'lp',
                                               (1., 12),
                                               None)
-
         keep_alive.append(g2)
 #         for t in pu_labels:
 #             t.Draw()
+        c.RedrawAxis()
         c.SaveAs("RecoTimePU_%d_BX_%s_Nehalem.png" % (measurement[0].bunch_spacing_,
                                                       release_label))
 
@@ -444,7 +489,9 @@ def totalEventTime_vs_LUMI(measurements,
                                                None)
         keep_alive.append(g8)
         for t in pu_labels:
+            t = setTextProperties(t)
             t.Draw()
+        cl.RedrawAxis()
         cl.SaveAs("RecoTimeLUMI_%d_BX_%s_Nehalem.png" % (measurement[0].bunch_spacing_,
                                                          release_label))
 def iterativeTime(measurements,
@@ -457,8 +504,8 @@ def iterativeTime(measurements,
                          "Time/Event [s]",
                          10,
                          0,
-                         150,
-                         300)
+                         70,
+                         20)
     (g13, legendi, pi) = makeGenericTimePlot('IterativeTime_vs_PU',
                                              measurements,
                                              "%d ns" % measurements[0].bunch_spacing_,
@@ -469,6 +516,7 @@ def iterativeTime(measurements,
                                              None,
                                              'lp',
                                              (False, 0., 0.))
+    ci.RedrawAxis()
     ci.SaveAs("IterativeTimePU_%d_BX_%s_Nehalem.png" % (measurements[0].bunch_spacing_,
                                                         release_label))
 
@@ -491,10 +539,37 @@ def iterativeTime(measurements,
                                                None,
                                                'lp',
                                                (True, 1.2, 0.))
+    cil.RedrawAxis()
     cil.SaveAs("IterativeTimeLUMI_%d_BX_%s_Nehalem.png" % (measurements[0].bunch_spacing_,
                                                            release_label))
 
+def setTextProperties(obj, label=False, title=False):
+    textFont = 42
+    textSize = 0.027
+    titleOffset = 1.25
+    labelOffset = 0.002
+    if not label and not title:
+        obj.SetTextFont(textFont)
+        obj.SetTextSize(textSize)
+    if label:
+        obj.SetLabelOffset(labelOffset)
+        obj.SetLabelFont(textFont)
+        obj.SetLabelSize(textSize)
+    if title:
+        gStyle.SetTitleX(0.5)
+        gStyle.SetTitleAlign(23)
+        obj.SetTitleFont(textFont)
+        obj.SetTitleSize(textSize)
+        obj.SetTitleOffset(titleOffset)
+    return obj
+
+def TDRStyle():
+#    gSystem.AddDynamicPath("/afs/cern.ch/user/r/rovere/")
+    gSystem.Load("tdrStyle_C")
+    setTDRStyle()
+
 def main():
+    TDRStyle()
     if not checkEnvs():
         pass
     measurements_25bx = []
@@ -515,7 +590,7 @@ def main():
     measurements_25bx.append(Measure('AVE_25_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX25.root' , '710pre7', 0, 0, 0))
     measurements_25bx.append(Measure('AVE_40_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU40_BX25.root' , '710pre7', 0, 0, 0))
     measurements_25bx.append(Measure('AVE_70_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU70_BX25.root' , '710pre7', 0, 0, 0))
-    measurements_25bx.append(Measure('AVE_140_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU140_BX25.root' , '710pre7', 1, 0, 1))
+#    measurements_25bx.append(Measure('AVE_140_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU140_BX25.root' , '710pre7', 1, 0, 1))
     measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_25_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU25_BX25.root' , '53X', 1, 1, 0))
     measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_40_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU40_BX25.root' , '53X', 1, 1, 0))
     measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_70_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU70_BX25.root' , '53X', 1, 1, 0))
