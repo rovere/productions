@@ -5,7 +5,7 @@ import commands
 JOB_LABEL = "PU25_BX50"
 
 # Do not forget trailing '/'.
-EOS_REPO = '/store/group/phys_tracking/samples_53X/DIGI/AVE_%s/' % JOB_LABEL
+EOS_REPO = '/store/group/phys_tracking/samples_53X/DIGI/AVE_%s/TTbar/' % JOB_LABEL
 # Grab it after some lookups throu type -a eoscms/eos
 EOS_COMMAND = '/afs/cern.ch/project/eos/installation/0.3.15/bin/eos.select'
 
@@ -20,6 +20,7 @@ process.MessageLogger = cms.Service("MessageLogger",
 readFiles = cms.untracked.vstring()
 secFiles = cms.untracked.vstring()
 readFiles.extend( ['/store/group/phys_tracking/samples_53X/RECO/AVE_%s/TTbar/step3_%sNODUP_RAW2DIGI_L1Reco_RECO_DQM.root' %(JOB_LABEL,JOB_LABEL)] );
+#readFiles.extend( ['file:./step3_%sNODUP_RAW2DIGI_L1Reco_RECO_DQM.root' % JOB_LABEL] );
 
 # Grab files dynamically from the specified eos directory
 input_files = commands.getoutput('%s ls %s' % (EOS_COMMAND, EOS_REPO))
