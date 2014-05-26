@@ -98,4 +98,37 @@ from HLTrigger.Configuration.customizeHLTforMC import customizeHLTforMC
 #call to customisation function customizeHLTforMC imported from HLTrigger.Configuration.customizeHLTforMC
 process = customizeHLTforMC(process)
 
+#### TURN OFF PIXEL DYNAMIC INEFFICIENCY ####
+#with this option you can turn on/off the whole efficiency simulation (when 'false' you'll have 100% efficiency);
+#it is true by default
+process.mix.digitizers.pixel.AddPixelInefficiencyFromPython = cms.bool(True)
+#these are the variables you have to alter to get the efficiency simulation
+#without dynamic inefficiency
+process.mix.digitizers.pixel.thePixelColEfficiency_BPix1 = cms.double(0.999)
+process.mix.digitizers.pixel.thePixelColEfficiency_BPix2 = cms.double(0.999)
+process.mix.digitizers.pixel.thePixelColEfficiency_BPix3 = cms.double(0.999)
+process.mix.digitizers.pixel.thePixelEfficiency_BPix1 = cms.double(0.999)
+process.mix.digitizers.pixel.thePixelEfficiency_BPix2 = cms.double(0.999)
+process.mix.digitizers.pixel.thePixelEfficiency_BPix3 = cms.double(0.999)
+process.mix.digitizers.pixel.thePixelChipEfficiency_BPix1 = cms.double(0.999)
+process.mix.digitizers.pixel.thePixelChipEfficiency_BPix2 = cms.double(0.999)
+process.mix.digitizers.pixel.thePixelChipEfficiency_BPix3 = cms.double(0.999)
+process.mix.digitizers.pixel.theLadderEfficiency_BPix1 = cms.vdouble(1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,
+                                                                     1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0)
+process.mix.digitizers.pixel.theModuleEfficiency_BPix1 = cms.vdouble(1.0,1.0,1.0,1.0)
+process.mix.digitizers.pixel.thePUEfficiency_BPix1 = cms.vdouble(1.0)
+process.mix.digitizers.pixel.theLadderEfficiency_BPix2 = cms.vdouble(1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,
+                                                                     1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,
+                                                                     1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,
+                                                                     1.0,1.0)
+process.mix.digitizers.pixel.theModuleEfficiency_BPix2 = cms.vdouble(1.0,1.0,1.0,1.0)
+process.mix.digitizers.pixel.thePUEfficiency_BPix2 = cms.vdouble(1.0)
+process.mix.digitizers.pixel.theLadderEfficiency_BPix3 = cms.vdouble(1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,
+                                                                     1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,
+                                                                     1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,
+                                                                     1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,
+                                                                     1.0,1.0,1.0,1.0)
+process.mix.digitizers.pixel.theModuleEfficiency_BPix3 = cms.vdouble(1.0,1.0,1.0,1.0)
+process.mix.digitizers.pixel.thePUEfficiency_BPix3 = cms.vdouble(1.0)
+
 # End of customisation functions
