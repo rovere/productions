@@ -11,3 +11,16 @@
 *.lai
 *.la
 *.a
+
+# Crab generated stuff
+crab_*_*
+crab.history
+
+# CMSSW specific
+*pyc
+*root
+*~
+*log
+
+# All png images
+*png
