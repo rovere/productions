@@ -97,7 +97,7 @@ process.RECOoutput_step = cms.EndPath(process.RECOoutput)
 process.DQMoutput_step = cms.EndPath(process.DQMoutput)
 
 process.load('DQMServices.Components.DQMFileSaver_cfi')
-process.dqmSaver.workflow = cms.untracked.string('/MyTiming/Release710pre7/%s' % JOB_LABEL)
+process.dqmSaver.workflow = cms.untracked.string('/MyTiming/Release710pre8/%s' % JOB_LABEL)
 process.DQMFile = cms.EndPath(process.dqmSaver)
 process.DQMStore.enableMultiThread = cms.untracked.bool(True)
 process.dqmSaver.enableMultiThread = cms.untracked.bool(True)

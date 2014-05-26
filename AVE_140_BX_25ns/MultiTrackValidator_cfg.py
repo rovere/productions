@@ -19,7 +19,8 @@ process.MessageLogger = cms.Service("MessageLogger",
 # source
 readFiles = cms.untracked.vstring()
 secFiles = cms.untracked.vstring()
-readFiles.extend( ['file:./step3_%sNODUP_RAW2DIGI_L1Reco_RECO_DQM.root' % JOB_LABEL] );
+readFiles.extend( ['/store/group/phys_tracking/samples_710pre8/RECO/AVE_%s/TTbar/step3_%sNODUP_RAW2DIGI_L1Reco_RECO_DQM.root' %(JOB_LABEL,JOB_LABEL)] );
+#readFiles.extend( ['file:./step3_%sNODUP_RAW2DIGI_L1Reco_RECO_DQM.root' % JOB_LABEL] );
 
 # Grab files dynamically from the specified eos directory
 input_files = commands.getoutput('%s ls %s' % (EOS_COMMAND, EOS_REPO))
