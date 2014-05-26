@@ -5,7 +5,7 @@ import commands
 JOB_LABEL = "PU50_BX50"
 
 # Do not forget trailing '/'.
-EOS_REPO = '/store/group/phys_tracking/samples_710pre7/DIGI/AVE_%s/TTbar/' % JOB_LABEL
+EOS_REPO = '/store/group/phys_tracking/samples_53X/DIGI/AVE_%s/TTbar/' % JOB_LABEL
 # Grab it after some lookups throu type -a eoscms/eos
 EOS_COMMAND = '/afs/cern.ch/project/eos/installation/0.3.15/bin/eos.select'
 
@@ -19,7 +19,8 @@ process.MessageLogger = cms.Service("MessageLogger",
 # source
 readFiles = cms.untracked.vstring()
 secFiles = cms.untracked.vstring()
-readFiles.extend( ['file:./step3_%sNODUP_RAW2DIGI_L1Reco_RECO_DQM.root' % JOB_LABEL] );
+readFiles.extend( ['/store/group/phys_tracking/samples_53X/RECO/AVE_%s/TTbar/step3_%sNODUP_RAW2DIGI_L1Reco_RECO_DQM.root' %(JOB_LABEL,JOB_LABEL)] );
+#readFiles.extend( ['file:./step3_%sNODUP_RAW2DIGI_L1Reco_RECO_DQM.root' % JOB_LABEL] );
 
 # Grab files dynamically from the specified eos directory
 input_files = commands.getoutput('%s ls %s' % (EOS_COMMAND, EOS_REPO))
@@ -95,7 +96,7 @@ process.cutsRecoTracks.quality = cms.vstring('highPurity')
 #process.cutsRecoTracks.maxRapidity  = cms.int32(1.0)
 
 process.quickTrackAssociatorByHits.useClusterTPAssociation = cms.bool(True)
-process.load("SimTracker.TrackerHitAssociation.clusterTpAssociationProducer_cfi")
+#process.load("SimTracker.TrackerHitAssociation.clusterTpAssociationProducer_cfi")
 
 
 # Add on the fly harvesting to have also eff/fake and all the rest
@@ -106,7 +107,7 @@ process.load("Validation.RecoTrack.PostProcessorTracker_cfi")
 process.postProcessorTrack.outputFileName = cms.untracked.string("multitrackValidator_%s_postProcess.root" % JOB_LABEL)
 
 process.validation = cms.Sequence(
-    process.tpClusterProducer *
+    #        process.tpClusterProducer *
     process.multiTrackValidator *
     process.postProcessorTrack
     )

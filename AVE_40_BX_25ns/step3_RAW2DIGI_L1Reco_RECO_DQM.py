@@ -9,7 +9,7 @@ import commands
 JOB_LABEL = "PU40_BX25"
 
 # Do not forget trailing '/'.
-EOS_REPO = '/store/group/phys_tracking/samples_710pre7/DIGI/AVE_%s/TTbar/' % JOB_LABEL
+EOS_REPO = '/store/caf/user/cerati/5_3_16/DIGI/AVE_%s/TTbar/' % JOB_LABEL
 # Grab it after some lookups throu type -a eoscms/eos
 EOS_COMMAND = '/afs/cern.ch/project/eos/installation/0.3.15/bin/eos.select'
 
@@ -43,7 +43,7 @@ input_files = map(lambda x: '%s%s' %(EOS_REPO, x), input_files)
 
 process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
-#    fileNames = cms.untracked.vstring('file:./step3_25PU_RAW2DIGI_L1Reco_RECO_DQM.root')
+#    fileNames = cms.untracked.vstring('file:./step3_40PU_RAW2DIGI_L1Reco_RECO_DQM.root')
     fileNames = cms.untracked.vstring(input_files)
                             )
 
@@ -97,10 +97,8 @@ process.RECOoutput_step = cms.EndPath(process.RECOoutput)
 process.DQMoutput_step = cms.EndPath(process.DQMoutput)
 
 process.load('DQMServices.Components.DQMFileSaver_cfi')
-process.dqmSaver.workflow = cms.untracked.string('/MyTiming/Release710pre7/%s' % JOB_LABEL)
+process.dqmSaver.workflow = cms.untracked.string('/MyTiming/Release53X/%s' % JOB_LABEL)
 process.DQMFile = cms.EndPath(process.dqmSaver)
-process.DQMStore.enableMultiThread = cms.untracked.bool(True)
-process.dqmSaver.enableMultiThread = cms.untracked.bool(True)
 process.FastTimerService.dqmTimeRange = cms.untracked.double(200000)
 process.FastTimerService.dqmTimeResolution = cms.untracked.double(100)
 process.FastTimerService.dqmPathTimeRange = cms.untracked.double(200000)
