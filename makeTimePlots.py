@@ -332,7 +332,7 @@ class Measure:
             self.cluster_charge_cut_ = 1.
 
     def fillTimeInfoFromFile_(self):
-        self.ROOT_file_ = TFile(self.file_)
+        self.ROOT_file_ = TFile.Open(self.file_)
         h = self.ROOT_file_.Get(self.RECO_TIME_HISTO)
         self.reco_total_time_ = h.GetMean()
         self.reco_total_time_rms_ = h.GetRMS()
@@ -377,7 +377,7 @@ def totalEventTime_vs_PU(measurements,
                        20,
                        0,
                        150,
-                       380)
+                       200)
     keep_alive = []
     legend = 0
     pu_labels = None
@@ -574,6 +574,8 @@ def main():
         pass
     measurements_25bx = []
     measurements_50bx = []
+    measurements_25bx_710pre8 = []
+    measurements_50bx_710pre8 = []
     measurements_25bx_53X = []
     measurements_50bx_53X = []
 
@@ -583,17 +585,33 @@ def main():
     # 3. a boolean specifying if the PU labels have to appear on the _vs_LUMI plots
     # 4. a boolean specifying if the internal directory structure of the FastTimerService is old(1) or new(0)
     # 5. the inevitable verbose flag.
-    measurements_50bx.append(Measure('AVE_25_BX_50ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX50.root', '710pre7', 0, 0, 0))
-    measurements_50bx.append(Measure('AVE_50_BX_50ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU50_BX50.root', '710pre7', 0, 0, 0))
-    measurements_50bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_25_BX_50ns/DQM_V0001_R000000001__MyTiming__Release53X__PU25_BX50.root', '53X', 1, 1, 0))
-    measurements_50bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_50_BX_50ns/DQM_V0001_R000000001__MyTiming__Release53X__PU50_BX50.root', '53X', 1, 1, 0))
-    measurements_25bx.append(Measure('AVE_25_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX25.root' , '710pre7', 0, 0, 0))
-    measurements_25bx.append(Measure('AVE_40_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU40_BX25.root' , '710pre7', 0, 0, 0))
-    measurements_25bx.append(Measure('AVE_70_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU70_BX25.root' , '710pre7', 0, 0, 0))
-#    measurements_25bx.append(Measure('AVE_140_BX_25ns/DQM_V0001_R000000001__MyTiming__Release710pre7__PU140_BX25.root' , '710pre7', 1, 0, 1))
-    measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_25_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU25_BX25.root' , '53X', 1, 1, 0))
-    measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_40_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU40_BX25.root' , '53X', 1, 1, 0))
-    measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_70_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU70_BX25.root' , '53X', 1, 1, 0))
+    eosdir_710pre7 = 'root://eoscms.cern.ch//store/group/phys_tracking/samples_710pre7/RECO'
+    eosdir_710pre8 = 'root://eoscms.cern.ch//store/group/phys_tracking/samples_710pre8/RECO'
+    measurements_50bx.append(Measure('%s/AVE_PU25_BX50/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX50.root' % eosdir_710pre7,
+                                     '710pre7', 1, 0, 0))
+    measurements_50bx.append(Measure('%s/AVE_PU50_BX50/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre7__PU50_BX50.root' % eosdir_710pre7,
+                                     '710pre7', 1, 0, 0))
+    measurements_50bx_710pre8.append(Measure('%s/AVE_PU25_BX50/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre8__PU25_BX50.root' % eosdir_710pre8,
+                                             '710pre8', 1, 0, 0))
+    measurements_50bx_710pre8.append(Measure('%s/AVE_PU50_BX50/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre8__PU50_BX50.root' % eosdir_710pre8,
+                                             '710pre8', 1, 0, 0))
+#    measurements_50bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_25_BX_50ns/DQM_V0001_R000000001__MyTiming__Release53X__PU25_BX50.root', '53X', 1, 1, 0))
+#    measurements_50bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_50_BX_50ns/DQM_V0001_R000000001__MyTiming__Release53X__PU50_BX50.root', '53X', 1, 1, 0))
+    measurements_25bx.append(Measure('%s/AVE_PU25_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX25.root' % eosdir_710pre7,
+                                     '710pre7', 1, 0, 0))
+    measurements_25bx.append(Measure('%s/AVE_PU40_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre7__PU40_BX25.root' % eosdir_710pre7,
+                                     '710pre7', 1, 0, 0))
+    measurements_25bx.append(Measure('%s/AVE_PU70_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre7__PU70_BX25.root' % eosdir_710pre7,
+                                     '710pre7', 1, 0, 0))
+    measurements_25bx_710pre8.append(Measure('%s/AVE_PU25_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre8__PU25_BX25.root' % eosdir_710pre8,
+                                             '710pre8', 1, 0, 0))
+    measurements_25bx_710pre8.append(Measure('%s/AVE_PU40_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre8__PU40_BX25.root' % eosdir_710pre8,
+                                             '710pre8', 1, 0, 0))
+    measurements_25bx_710pre8.append(Measure('%s/AVE_PU70_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre8__PU70_BX25.root' % eosdir_710pre8,
+                                             '710pre8', 1, 0, 0))
+#    measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_25_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU25_BX25.root' , '53X', 1, 1, 0))
+#    measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_40_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU40_BX25.root' , '53X', 1, 1, 0))
+#    measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_70_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU70_BX25.root' , '53X', 1, 1, 0))
 #    Explanation of the fill style algo:
 #    FillStyle = 3ijk, i(1,9)=space[0.5, 6]mm, j(0,9)=angle[0,90], k(0,9)=angle[90,180]
     fillStyle = [
@@ -617,8 +635,8 @@ def main():
 #    iterativeTime(measurements_50bx, "710pre7", fillStyle, NoFill)
 
     # 25 ns
-    totalEventTime_vs_PU([measurements_25bx, measurements_25bx_53X, measurements_50bx, measurements_50bx_53X], "710pre7", fillStyle, NoFill)
-    totalEventTime_vs_LUMI([measurements_25bx, measurements_25bx_53X, measurements_50bx, measurements_50bx_53X], "710pre7", fillStyle, NoFill)
+    totalEventTime_vs_PU([measurements_25bx, measurements_25bx_710pre8, measurements_50bx, measurements_50bx_710pre8], "710pre7", fillStyle, NoFill)
+    totalEventTime_vs_LUMI([measurements_25bx, measurements_25bx_710pre8, measurements_50bx, measurements_50bx_710pre8], "710pre7", fillStyle, NoFill)
     iterativeTime(measurements_25bx, "710pre7", fillStyle, NoFill)
 
     for m in measurements_50bx:
