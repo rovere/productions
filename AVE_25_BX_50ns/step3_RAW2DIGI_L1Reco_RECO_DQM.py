@@ -9,7 +9,7 @@ import commands
 JOB_LABEL = "PU25_BX50"
 
 # Do not forget trailing '/'.
-EOS_REPO = '/store/group/phys_tracking/samples_710pre7/DIGI/AVE_%s/TTbar/' % JOB_LABEL
+EOS_REPO = '/store/caf/user/rovere/6_2_0_pre7/DIGI/AVE_%s/TTbar/' % JOB_LABEL
 # Grab it after some lookups throu type -a eoscms/eos
 EOS_COMMAND = '/afs/cern.ch/project/eos/installation/0.3.15/bin/eos.select'
 
@@ -97,7 +97,7 @@ process.RECOoutput_step = cms.EndPath(process.RECOoutput)
 process.DQMoutput_step = cms.EndPath(process.DQMoutput)
 
 process.load('DQMServices.Components.DQMFileSaver_cfi')
-process.dqmSaver.workflow = cms.untracked.string('/MyTiming/Release710pre7/%s' % JOB_LABEL)
+process.dqmSaver.workflow = cms.untracked.string('/MyTiming/Release629/%s' % JOB_LABEL)
 process.DQMFile = cms.EndPath(process.dqmSaver)
 process.DQMStore.enableMultiThread = cms.untracked.bool(True)
 process.dqmSaver.enableMultiThread = cms.untracked.bool(True)
