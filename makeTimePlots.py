@@ -127,6 +127,7 @@ def makeFrame(name, title, xtitle, ytitle, xll, yll, xur, yur):
     setTextProperties(g.GetYaxis(), title=True)
     setTextProperties(g.GetXaxis(), label=True)
     setTextProperties(g.GetYaxis(), label=True)
+    c.SetGrid(1, 1)
     g.Draw("AP")
     c.Update()
     return c, g  # keep it alive....
@@ -214,7 +215,8 @@ def makeGenericTimePlot(kind,
                 counter += 1
     if kind != 'IterativeTime_vs_PU' and kind != 'IterativeTime_vs_LUMI':
         if not legend:
-            legend = TLegend(0.13, 0.65, 0.7, 0.9)
+#            legend = TLegend(0.5, 0.75, 0.95, 0.95)
+            legend = TLegend(0.13, 0.75, 0.65, 0.95)
             legend.SetFillColor(0)
             legend.SetHeader("PileUp Scenarios")
         print kind
@@ -371,13 +373,13 @@ def totalEventTime_vs_PU(measurements,
         print "Warning, too many files to overlay"
         return
     (c, g) = makeFrame("RecoTimePU",
-                       "Reco Time - %s" % release_label,
+                       "", # "Reco Time - %s" % release_label,
                        "PileUp",
                        "Time/Event [s]",
                        20,
                        0,
-                       150,
-                       200)
+                       60,
+                       80)
     keep_alive = []
     legend = 0
     pu_labels = None
@@ -399,8 +401,8 @@ def totalEventTime_vs_PU(measurements,
 #        keep_alive.append(g0)
         (g1, legend, pu_labels) = makeGenericTimePlot('TotalRecoTime_vs_PU',
                                                       measurement,
-                                                      "%d ns - Reco Only %s" % (measurement[0].bunch_spacing_,
-                                                                                measurement[0].release_),
+                                                      "%d ns - Reco %s" % (measurement[0].bunch_spacing_,
+                                                                           measurement[0].release_),
                                                       color,
                                                       21,
                                                       1,
@@ -412,8 +414,8 @@ def totalEventTime_vs_PU(measurements,
         keep_alive.append(g1)
         (g2, legend, t) = makeGenericTimePlot('TotalIterativeTime_vs_PU',
                                               measurement,
-                                              "%d ns - IterativeTime Only %s" % (measurement[0].bunch_spacing_,
-                                                                                 measurement[0].release_),
+                                              "%d ns - IterativeTime %s" % (measurement[0].bunch_spacing_,
+                                                                            measurement[0].release_),
                                               color-5,
                                               20,
                                               1,
@@ -434,23 +436,25 @@ def totalEventTime_vs_LUMI(measurements,
                            fillStyle,
                            NoFill):
     baseColor = [kAzure, kOrange, kSpring, kRed]
+    markerStyle = [kFullCircle, kFullCircle, kFullCircle, kFullCircle]
     if len(measurements) > len(baseColor):
         print "Warning, too many files to overlay"
         return
     (cl, gl) = makeFrame("RecoTimeLUMI",
-                         "Reco Time - %s" % release_label,
+                         "", # "Reco Time - %s" % release_label,
                          "Luminosity [10^{34} cm^{-2} s^{-1}]",
                          "Time/Event [s]",
                          0.5,
                          0,
-                         5.5,
-                         380)
+                         2.5,
+                         250)
     keep_alive = []
     legendl = 0
     pu_labels = None
     col_idx = 0
     for measurement in measurements:
         color = baseColor[col_idx]
+        marker = markerStyle[col_idx]
         col_idx += 1
 #         (g7a, legendl, p) = makeGenericTimePlot('TotalEventTime_vs_LUMI',
 #                                                 measurements,
@@ -462,38 +466,38 @@ def totalEventTime_vs_LUMI(measurements,
 #                                                 None,
 #                                                 'lp',
 #                                                 (True, 1., 12))
-        (g7, legendl, pu_labels) = makeGenericTimePlot('TotalRecoTime_vs_LUMI',
+#         (g7, legendl, pu_labels) = makeGenericTimePlot('TotalRecoTime_vs_LUMI',
+#                                                        measurement,
+#                                                        "%d ns - Reco %s" % (measurement[0].bunch_spacing_,
+#                                                                             measurement[0].release_),
+#                                                        color,
+#                                                        marker,
+#                                                        1,
+#                                                        fillStyle[0],
+#                                                        legendl if legendl else None,
+#                                                        'f',
+#                                                        (1., 5),
+#                                                        pu_labels if pu_labels else None)
+#         keep_alive.append(g7)
+        (g8, legendl, pu_labels) = makeGenericTimePlot('TotalIterativeTime_vs_LUMI',
                                                        measurement,
-                                                       "%d ns - Reco Only %s" % (measurement[0].bunch_spacing_,
-                                                                                 measurement[0].release_),
-                                                       color,
-                                                       21,
+                                                       "%d ns - IterativeTime %s" % (measurement[0].bunch_spacing_,
+                                                                                     measurement[0].release_),
+                                                       color-5,
+                                                       marker,
                                                        1,
-                                                       fillStyle[0],
+                                                       1,
                                                        legendl if legendl else None,
-                                                       'f',
-                                                       (1., 12),
+                                                       'lp',
+                                                       (1., 5),
                                                        pu_labels if pu_labels else None)
-        keep_alive.append(g7)
-        (g8, legendl, p) = makeGenericTimePlot('TotalIterativeTime_vs_LUMI',
-                                               measurement,
-                                               "%d ns - IterativeTime %s" % (measurement[0].bunch_spacing_,
-                                                                             measurement[0].release_),
-                                               color-5,
-                                               20,
-                                               1,
-                                               1,
-                                               legendl if legendl else None,
-                                               'lp',
-                                               (0., 0),
-                                               None)
         keep_alive.append(g8)
         for t in pu_labels:
             t = setTextProperties(t)
             t.Draw()
         cl.RedrawAxis()
-        cl.SaveAs("RecoTimeLUMI_%d_BX_%s_Nehalem.png" % (measurement[0].bunch_spacing_,
-                                                         release_label))
+        cl.SaveAs("RecoTimeLUMI_%d_BX_%s_Nehalem_dineff_zoom.png" % (measurement[0].bunch_spacing_,
+                                                                     release_label))
 def iterativeTime(measurements,
                   release_label,
                   fillStyle,
@@ -504,8 +508,8 @@ def iterativeTime(measurements,
                          "Time/Event [s]",
                          10,
                          0,
-                         70,
-                         20)
+                         60,
+                         10)
     (g13, legendi, pi) = makeGenericTimePlot('IterativeTime_vs_PU',
                                              measurements,
                                              "%d ns" % measurements[0].bunch_spacing_,
@@ -572,10 +576,13 @@ def main():
     TDRStyle()
     if not checkEnvs():
         pass
-    measurements_25bx = []
-    measurements_50bx = []
+    measurements_25bx_710pre7 = []
+    measurements_50bx_710pre7 = []
     measurements_25bx_710pre8 = []
+    measurements_25bx_710pre8_dineff = []
     measurements_50bx_710pre8 = []
+    measurements_25bx_62X = []
+    measurements_50bx_62X = []
     measurements_25bx_53X = []
     measurements_50bx_53X = []
 
@@ -585,36 +592,75 @@ def main():
     # 3. a boolean specifying if the PU labels have to appear on the _vs_LUMI plots
     # 4. a boolean specifying if the internal directory structure of the FastTimerService is old(1) or new(0)
     # 5. the inevitable verbose flag.
+    eosdir_710pre8 = 'root://eoscms.cern.ch//store/group/phys_tracking/samples_710pre8/RECO-NO-PIX-DYN-INEF'
+    eosdir_710pre8_dineff = 'root://eoscms.cern.ch//store/group/phys_tracking/samples_710pre8/RECO'
     eosdir_710pre7 = 'root://eoscms.cern.ch//store/group/phys_tracking/samples_710pre7/RECO'
-    eosdir_710pre8 = 'root://eoscms.cern.ch//store/group/phys_tracking/samples_710pre8/RECO'
-    measurements_50bx.append(Measure('%s/AVE_PU25_BX50/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX50.root' % eosdir_710pre7,
-                                     '710pre7', 1, 0, 0))
-    measurements_50bx.append(Measure('%s/AVE_PU50_BX50/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre7__PU50_BX50.root' % eosdir_710pre7,
-                                     '710pre7', 1, 0, 0))
+    eosdir_62X = 'root://eoscms.cern.ch//store/group/phys_tracking/samples_62X/RECO'
+    eosdir_53X = 'root://eoscms.cern.ch//store/group/phys_tracking/samples_53X/RECO'
     measurements_50bx_710pre8.append(Measure('%s/AVE_PU25_BX50/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre8__PU25_BX50.root' % eosdir_710pre8,
-                                             '710pre8', 1, 0, 0))
+                                             '710pre8', 0, 0, 0))
     measurements_50bx_710pre8.append(Measure('%s/AVE_PU50_BX50/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre8__PU50_BX50.root' % eosdir_710pre8,
-                                             '710pre8', 1, 0, 0))
-#    measurements_50bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_25_BX_50ns/DQM_V0001_R000000001__MyTiming__Release53X__PU25_BX50.root', '53X', 1, 1, 0))
-#    measurements_50bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_50_BX_50ns/DQM_V0001_R000000001__MyTiming__Release53X__PU50_BX50.root', '53X', 1, 1, 0))
-    measurements_25bx.append(Measure('%s/AVE_PU25_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX25.root' % eosdir_710pre7,
-                                     '710pre7', 1, 0, 0))
-    measurements_25bx.append(Measure('%s/AVE_PU40_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre7__PU40_BX25.root' % eosdir_710pre7,
-                                     '710pre7', 1, 0, 0))
-    measurements_25bx.append(Measure('%s/AVE_PU70_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre7__PU70_BX25.root' % eosdir_710pre7,
-                                     '710pre7', 1, 0, 0))
+                                             '710pre8', 0, 0, 0))
+    measurements_50bx_710pre7.append(Measure('%s/AVE_PU25_BX50/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX50.root' % eosdir_710pre7,
+                                     '710pre7', 0, 0, 0))
+    measurements_50bx_710pre7.append(Measure('%s/AVE_PU50_BX50/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre7__PU50_BX50.root' % eosdir_710pre7,
+                                     '710pre7', 0, 0, 0))
+    measurements_50bx_62X.append(Measure('%s/AVE_PU25_BX50/TTbar/DQM_V0001_R000000001__MyTiming__Release629__PU25_BX50.root' % eosdir_62X,
+                                     '62X', 0, 1, 0))
+    measurements_50bx_62X.append(Measure('%s/AVE_PU50_BX50/TTbar/DQM_V0001_R000000001__MyTiming__Release629__PU50_BX50.root' % eosdir_62X,
+                                     '62X', 0, 1, 0))
+    measurements_50bx_53X.append(Measure('%s/AVE_PU25_BX50/TTbar/DQM_V0001_R000000001__MyTiming__Release53X__PU25_BX50.root' % eosdir_53X,
+                                     '53X', 1, 1, 0))
+    measurements_50bx_53X.append(Measure('%s/AVE_PU50_BX50/TTbar/DQM_V0001_R000000001__MyTiming__Release53X__PU50_BX50.root' % eosdir_53X,
+                                     '53X', 1, 1, 0))
+
     measurements_25bx_710pre8.append(Measure('%s/AVE_PU25_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre8__PU25_BX25.root' % eosdir_710pre8,
-                                             '710pre8', 1, 0, 0))
+                                             '710pre8', 0, 0, 0))
     measurements_25bx_710pre8.append(Measure('%s/AVE_PU40_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre8__PU40_BX25.root' % eosdir_710pre8,
-                                             '710pre8', 1, 0, 0))
+                                             '710pre8', 0, 0, 0))
     measurements_25bx_710pre8.append(Measure('%s/AVE_PU70_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre8__PU70_BX25.root' % eosdir_710pre8,
-                                             '710pre8', 1, 0, 0))
-#    measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_25_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU25_BX25.root' , '53X', 1, 1, 0))
-#    measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_40_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU40_BX25.root' , '53X', 1, 1, 0))
-#    measurements_25bx_53X.append(Measure('/afs/cern.ch/user/c/cerati/public/productions/AVE_70_BX_25ns/DQM_V0001_R000000001__MyTiming__Release53X__PU70_BX25.root' , '53X', 1, 1, 0))
+                                             '710pre8', 0, 0, 0))
+#     measurements_25bx_710pre8.append(Measure('%s/AVE_PU140_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre8__PU140_BX25.root' % eosdir_710pre8,
+#                                              '710pre8', 1, 0, 0))
+    measurements_25bx_710pre8_dineff.append(Measure('%s/AVE_PU25_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre8__PU25_BX25.root' % eosdir_710pre8_dineff,
+                                             '710pre8_dineff', 1, 0, 0))
+    measurements_25bx_710pre8_dineff.append(Measure('%s/AVE_PU40_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre8__PU40_BX25.root' % eosdir_710pre8_dineff,
+                                             '710pre8_dineff', 1, 0, 0))
+    measurements_25bx_710pre8_dineff.append(Measure('%s/AVE_PU70_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre8__PU70_BX25.root' % eosdir_710pre8_dineff,
+                                             '710pre8_dineff', 1, 0, 0))
+#     measurements_25bx_710pre8_dineff.append(Measure('%s/AVE_PU140_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre8__PU140_BX25.root' % eosdir_710pre8_dineff,
+#                                              '710pre8_dineff', 1, 0, 0))
+    measurements_25bx_710pre7.append(Measure('%s/AVE_PU25_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre7__PU25_BX25.root' % eosdir_710pre7,
+                                     '710pre7', 0, 0, 0))
+    measurements_25bx_710pre7.append(Measure('%s/AVE_PU40_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre7__PU40_BX25.root' % eosdir_710pre7,
+                                     '710pre7', 0, 0, 0))
+    measurements_25bx_710pre7.append(Measure('%s/AVE_PU70_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre7__PU70_BX25.root' % eosdir_710pre7,
+                                     '710pre7', 0, 0, 0))
+    measurements_25bx_710pre7.append(Measure('%s/AVE_PU140_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release710pre7__PU140_BX25.root' % eosdir_710pre7,
+                                     '710pre7', 0, 0, 0))
+    measurements_25bx_62X.append(Measure('%s/AVE_PU25_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release629__PU25_BX25.root' % eosdir_62X,
+                                     '62X', 1, 1, 0))
+    measurements_25bx_62X.append(Measure('%s/AVE_PU40_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release629__PU40_BX25.root' % eosdir_62X,
+                                     '62X', 1, 1, 0))
+    measurements_25bx_62X.append(Measure('%s/AVE_PU70_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release629__PU70_BX25.root' % eosdir_62X,
+                                     '62X', 1, 1, 0))
+#     measurements_25bx_62X.append(Measure('%s/AVE_PU140_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release629__PU140_BX25.root' % eosdir_62X,
+#                                      '62X', 0, 1, 0))
+    measurements_25bx_53X.append(Measure('%s/AVE_PU25_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release53X__PU25_BX25.root' % eosdir_53X,
+                                     '53X', 0, 1, 0))
+    measurements_25bx_53X.append(Measure('%s/AVE_PU40_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release53X__PU40_BX25.root' % eosdir_53X,
+                                     '53X', 0, 1, 0))
+#     measurements_25bx_53X.append(Measure('%s/AVE_PU70_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release53X__PU70_BX25.root' % eosdir_53X,
+#                                      '53X', 0, 1, 0))
+    measurements_25bx_53X.append(Measure('%s/AVE_PU70_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release53X-nolimits-50evt__PU70_BX25.root' % eosdir_53X,
+                                     '53X', 0, 1, 0))
+#    measurements_25bx_53X.append(Measure('%s/AVE_PU140_BX25/TTbar/DQM_V0001_R000000001__MyTiming__Release53x__PU140_BX25.root' % eosdir_53X,
+#                                     '53X', 0, 1, 0))
+
 #    Explanation of the fill style algo:
-#    FillStyle = 3ijk, i(1,9)=space[0.5, 6]mm, j(0,9)=angle[0,90], k(0,9)=angle[90,180]
+#    FillStyle = 3ijk, i(0,9)=space[0.5, 6]mm, j(0,9)=angle[0,90], k(0,9)=angle[90,180]
     fillStyle = [
+#        3342,
         3245,
         3254,
         3256,
@@ -630,18 +676,27 @@ def main():
     NoFill = 1
 
     # 50 ns
-#    totalEventTime_vs_PU([measurements_50bx, measurements_50bx_53X], "710pre7", fillStyle, NoFill)
-#    totalEventTime_vs_LUMI([measurements_50bx, measurements_50bx_53X], "710pre7", fillStyle, NoFill)
-#    iterativeTime(measurements_50bx, "710pre7", fillStyle, NoFill)
+#    totalEventTime_vs_PU([measurements_50bx_710pre8, measurements_50bx_62X, measurements_50bx_53X], "71X_62X_53X", fillStyle, NoFill)
+#    totalEventTime_vs_LUMI([measurements_50bx_710pre8, measurements_50bx_62X, measurements_50bx_53X], "71X_62X_53X", fillStyle, NoFill)
+#     iterativeTime(measurements_50bx_710pre8, "710pre8", fillStyle, NoFill)
+#     iterativeTime(measurements_50bx_62X, "62X", fillStyle, NoFill)
+#     iterativeTime(measurements_50bx_53X, "53X", fillStyle, NoFill)
 
     # 25 ns
-    totalEventTime_vs_PU([measurements_25bx, measurements_25bx_710pre8, measurements_50bx, measurements_50bx_710pre8], "710pre7", fillStyle, NoFill)
-    totalEventTime_vs_LUMI([measurements_25bx, measurements_25bx_710pre8, measurements_50bx, measurements_50bx_710pre8], "710pre7", fillStyle, NoFill)
-    iterativeTime(measurements_25bx, "710pre7", fillStyle, NoFill)
+#    totalEventTime_vs_PU([measurements_25bx_710pre8, measurements_25bx_710pre8_dineff], "710pre8-dyn-ineff", fillStyle, NoFill)
+    totalEventTime_vs_LUMI([measurements_25bx_710pre8, measurements_25bx_62X, measurements_25bx_53X], "71X_62X_53X", fillStyle, NoFill)
+#    iterativeTime(measurements_25bx_710pre7, "710pre7", fillStyle, NoFill)
+#    iterativeTime(measurements_25bx_710pre8_dineff, "710pre8-dineff", fillStyle, NoFill)
 
-    for m in measurements_50bx:
+#     totalEventTime_vs_PU([measurements_25bx_710pre8, measurements_25bx_62X, measurements_25bx_53X], "710pre7", fillStyle, NoFill)
+#     totalEventTime_vs_LUMI([measurements_25bx_710pre8, measurements_25bx_62X, measurements_25bx_53X], "710pre7", fillStyle, NoFill)
+#     iterativeTime(measurements_25bx_710pre8, "710pre8-no-dyn-ineff", fillStyle, NoFill)
+#     iterativeTime(measurements_25bx_62X, "62X", fillStyle, NoFill)
+#     iterativeTime(measurements_25bx_53X, "53X", fillStyle, NoFill)
+
+    for m in measurements_50bx_710pre7:
         m.dump()
-    for m in measurements_25bx:
+    for m in measurements_25bx_710pre7:
         m.dump()
 
     waitKey()
