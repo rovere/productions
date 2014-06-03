@@ -24,3 +24,6 @@ crab.history
 
 # All png images
 *png
+
+# Dependency files
+*.d
