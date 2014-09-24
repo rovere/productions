@@ -31,7 +31,7 @@ secFiles.extend(input_files)
 source = cms.Source ("PoolSource",fileNames = readFiles, secondaryFileNames = secFiles)
 
 process.source = source
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(200) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
 ### conditions
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
@@ -62,26 +62,23 @@ process.multiTrackValidator.associators = ['quickTrackAssociatorByHits']
 process.multiTrackValidator.skipHistoFit=cms.untracked.bool(False)
 process.multiTrackValidator.label = ['cutsRecoTracks']
 process.multiTrackValidator.useLogPt=cms.untracked.bool(True)
-process.multiTrackValidator.minpT = cms.double(0.1)
-process.multiTrackValidator.maxpT = cms.double(3000.0)
-process.multiTrackValidator.nintpT = cms.int32(40)
 process.multiTrackValidator.UseAssociators = cms.bool(True)
 process.multiTrackValidator.runStandalone = cms.bool(True)
 
 ### TP+Efficiency Cuts Configuration ###
 process.multiTrackValidator.minHitTP = cms.int32(0)
-process.multiTrackValidator.ptMinTP = cms.double(0.5)
-process.multiTrackValidator.lipTP = cms.double(30.0)
+process.multiTrackValidator.ptMinTP = cms.double(0.005)
+process.multiTrackValidator.lipTP = cms.double(150.0)
 process.multiTrackValidator.tipTP = cms.double(60.0)
 process.multiTrackValidator.histoProducerAlgoBlock.generalTpSelector.minHit = cms.int32(0)
-process.multiTrackValidator.histoProducerAlgoBlock.generalTpSelector.ptMin = cms.double(0.5)
-process.multiTrackValidator.histoProducerAlgoBlock.generalTpSelector.lip   = cms.double(30.0)
+process.multiTrackValidator.histoProducerAlgoBlock.generalTpSelector.ptMin = cms.double(0.005)
+process.multiTrackValidator.histoProducerAlgoBlock.generalTpSelector.lip   = cms.double(150.0)
 process.multiTrackValidator.histoProducerAlgoBlock.generalTpSelector.tip   = cms.double(60.0)
-process.multiTrackValidator.histoProducerAlgoBlock.TpSelectorForEfficiencyVsEta  = process.multiTrackValidator.histoProducerAlgoBlock.generalTpSelector.clone()
-process.multiTrackValidator.histoProducerAlgoBlock.TpSelectorForEfficiencyVsPhi  = process.multiTrackValidator.histoProducerAlgoBlock.generalTpSelector.clone()
-process.multiTrackValidator.histoProducerAlgoBlock.TpSelectorForEfficiencyVsPt   = process.multiTrackValidator.histoProducerAlgoBlock.generalTpSelector.clone()
-process.multiTrackValidator.histoProducerAlgoBlock.TpSelectorForEfficiencyVsVTXR = process.multiTrackValidator.histoProducerAlgoBlock.generalTpSelector.clone()
-process.multiTrackValidator.histoProducerAlgoBlock.TpSelectorForEfficiencyVsVTXZ = process.multiTrackValidator.histoProducerAlgoBlock.generalTpSelector.clone()
+process.multiTrackValidator.histoProducerAlgoBlock.TpSelectorForEfficiencyVsEta  = process.multiTrackValidator.histoProducerAlgoBlock.generalTpSelector.clone(ptMin=0.9,lip=30,tip=3.5)
+process.multiTrackValidator.histoProducerAlgoBlock.TpSelectorForEfficiencyVsPhi  = process.multiTrackValidator.histoProducerAlgoBlock.generalTpSelector.clone(ptMin=0.9,lip=30,tip=3.5)
+process.multiTrackValidator.histoProducerAlgoBlock.TpSelectorForEfficiencyVsPt   = process.multiTrackValidator.histoProducerAlgoBlock.generalTpSelector.clone(ptMin=0.05,lip=30,tip=3.5)
+process.multiTrackValidator.histoProducerAlgoBlock.TpSelectorForEfficiencyVsVTXR = process.multiTrackValidator.histoProducerAlgoBlock.generalTpSelector.clone(ptMin=0.5)
+process.multiTrackValidator.histoProducerAlgoBlock.TpSelectorForEfficiencyVsVTXZ = process.multiTrackValidator.histoProducerAlgoBlock.generalTpSelector.clone(ptMin=0.5,lip=60,tip=3.5)
 
 # Numerator: cuts on Reco Tracks ... ?
 process.load("Validation.RecoTrack.cuts_cff")

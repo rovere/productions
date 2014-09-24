@@ -9,7 +9,7 @@ import commands
 JOB_LABEL = "PU50_BX50"
 
 # Do not forget trailing '/'.
-EOS_REPO = '/store/caf/user/cerati/5_3_16/DIGI/AVE_%s/TTbar/' % JOB_LABEL
+EOS_REPO = '/store/group/phys_tracking/samples_53X/DIGI/AVE_%s/TTbar/' % JOB_LABEL
 # Grab it after some lookups throu type -a eoscms/eos
 EOS_COMMAND = '/afs/cern.ch/project/eos/installation/0.3.15/bin/eos.select'
 
@@ -31,7 +31,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(200)
+    input = cms.untracked.int32(1000)
 )
 
 # Input source
@@ -103,6 +103,32 @@ process.FastTimerService.dqmTimeRange = cms.untracked.double(200000)
 process.FastTimerService.dqmTimeResolution = cms.untracked.double(100)
 process.FastTimerService.dqmPathTimeRange = cms.untracked.double(200000)
 process.FastTimerService.dqmPathTimeResolution = cms.untracked.double(100)
+
+#Get rid of all the check on the number of clusters, both for strip and pixels
+process.initialStepSeeds.ClusterCheckPSet.doClusterCheck = cms.bool(False)
+process.detachedTripletStepSeeds.ClusterCheckPSet.doClusterCheck = cms.bool(False)
+process.lowPtTripletStepSeeds.ClusterCheckPSet.doClusterCheck = cms.bool(False)
+process.pixelPairStepSeeds.ClusterCheckPSet.doClusterCheck = cms.bool(False)
+process.mixedTripletStepSeedsA.ClusterCheckPSet.doClusterCheck = cms.bool(False)
+process.mixedTripletStepSeedsB.ClusterCheckPSet.doClusterCheck = cms.bool(False)
+process.pixelLessStepSeeds.ClusterCheckPSet.doClusterCheck = cms.bool(False)
+process.tobTecStepSeeds.ClusterCheckPSet.doClusterCheck = cms.bool(False)
+process.tripletElectronSeeds.ClusterCheckPSet.doClusterCheck = cms.bool(False)
+process.pixelPairElectronSeeds.ClusterCheckPSet.doClusterCheck = cms.bool(False)
+process.stripPairElectronSeeds.ClusterCheckPSet.doClusterCheck = cms.bool(False)
+# Get rid of limit on number of seeds only for iterations that showed the problem
+process.detachedTripletStepSeeds.OrderedHitsFactoryPSet.GeneratorPSet.maxElement = cms.uint32(10000000)
+process.mixedTripletStepSeedsA.OrderedHitsFactoryPSet.GeneratorPSet.maxElement = cms.uint32(10000000)
+process.mixedTripletStepSeedsB.OrderedHitsFactoryPSet.GeneratorPSet.maxElement = cms.uint32(10000000)
+process.pixelLessStepSeeds.OrderedHitsFactoryPSet.maxElement = cms.uint32(10000000)
+process.tobTecStepSeeds.OrderedHitsFactoryPSet.maxElement = cms.uint32(10000000)
+# Get rid of limit on number of seed in track candidate maker as well
+process.mixedTripletStepTrackCandidates.maxNSeeds = 100000000
+process.pixelLessStepTrackCandidates.maxNSeeds = 100000000
+process.tobTecStepTrackCandidates.maxNSeeds = 100000000
+# Photon conversions from single leg
+process.photonConvTrajSeedFromSingleLeg.ClusterCheckPSet.doClusterCheck = False
+process.photonConvTrajSeedFromSingleLeg.OrderedHitsFactoryPSet.maxElement = 10000000
 
 # Schedule definition
 process.schedule = cms.Schedule(process.raw2digi_step,
